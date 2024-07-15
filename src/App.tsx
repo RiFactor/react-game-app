@@ -17,12 +17,14 @@ function App() {
 
   const [games, setGames] = useState<Game[]>([]);
   const baseUrl = "https://api.rawg.io/api";
+  const apiKey = "eb2ec1af874049fdb938b0a822c82e58";
+  const keyString = `?key=${apiKey}`;
 
   useEffect(() => {
     axios
       .get(
         //extract the api key to .env
-        `${baseUrl}/games?key=eb2ec1af874049fdb938b0a822c82e58`
+        `${baseUrl}/games${keyString}`
       )
       .then((res) => {
         // console.log(res.data.results);
@@ -30,11 +32,23 @@ function App() {
       });
   }, []);
 
-  console.log({ games });
+  // console.log({ games });
+
+  //navigation
+  const handleSelectGame = (gameId: string) => {
+    // console.log({ gameId });
+    axios
+      .get(`${baseUrl}/games/${gameId}${keyString}`)
+      .then((res) => console.log(res.data));
+  };
+
   return (
     <div>
       {games.map((game) => (
-        <div>{game.name}</div>
+        <div>
+          <p>{game.name}</p>
+          <button onClick={() => handleSelectGame(game.slug)}>More</button>
+        </div>
       ))}
       <GameCard />
     </div>
