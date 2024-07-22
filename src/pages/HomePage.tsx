@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import MainLayout from "../components/MainLayout";
 import axios from "axios";
 import GameCard from "../components/GameCard";
-import Button from "../components/Button";
 
 // Layout for games
 // Dark Mode - Chakra UI?
@@ -11,10 +10,11 @@ import Button from "../components/Button";
 // side bar
 // search bar
 
-type Game = {
+export type Game = {
   id: number;
   slug: string;
   name: string;
+  background_image: string;
 };
 
 const HomePage = () => {
@@ -53,14 +53,15 @@ const HomePage = () => {
   return (
     <div>
       <MainLayout>
-        <div>
+        <div className="flex">
           {games.map((game) => (
             <div>
-              <p>{game.name}</p>
-              <Button onClick={() => handleSelectGame(game.slug)}>More</Button>
+              <GameCard
+                game={game}
+                onClick={() => handleSelectGame(game.slug)}
+              />
             </div>
           ))}
-          <GameCard />
         </div>
       </MainLayout>
     </div>
