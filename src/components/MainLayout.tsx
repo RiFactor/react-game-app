@@ -4,12 +4,12 @@ interface Props {
 
 const MainLayout = ({ children }: Props) => {
   return (
-    <div className="flex">
-      <div className="flex flex-row">
-        <p className="font-bold">this</p>
-        <p>that</p>
+    <div className="flex flex-col gap-2">
+      <div>Search bar</div>
+      <div className="flex gap-2">
+        <p className="font-bold">sidebar</p>
+        {children}
       </div>
-      {children}
     </div>
   );
 };
