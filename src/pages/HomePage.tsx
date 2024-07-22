@@ -52,10 +52,12 @@ const HomePage = () => {
   return (
     <div>
       <MainLayout
-        handleSearch={(data: FieldValues) =>
-          setSearchGameName(data.searchGameName)
-        }
+        handleSearch={(data: FieldValues) => {
+          setSelectedGenre(undefined);
+          setSearchGameName(data.searchGameName);
+        }}
         handleClick={(slug: string) => {
+          setSearchGameName(undefined); // ToDo clear search bar text
           setSelectedGenre(slug);
           console.log({ genre: selectedGenre });
         }}
