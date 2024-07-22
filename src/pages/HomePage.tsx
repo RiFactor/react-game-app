@@ -9,7 +9,7 @@ export type Game = {
   id: number;
   slug: string;
   name: string;
-  background_image: string;
+  image_background: string;
 };
 
 export const baseUrl = "https://api.rawg.io/api";
@@ -30,7 +30,7 @@ const HomePage = () => {
     axios
       .get(
         //extract the api key to .env
-        // `${baseUrl}/games${keyString}`
+        // `${baseUrl}/games${keyString}&genres=action`
         `${baseUrl}/games${keyString}`,
         { params: { genres: selectedGenre, search: searchGameName } }
       )
