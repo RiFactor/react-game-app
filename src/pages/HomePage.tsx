@@ -30,7 +30,6 @@ const HomePage = () => {
         `${baseUrl}/games${keyString}`
       )
       .then((res) => {
-        // console.log(res.data.results);
         setGames(res.data.results);
       })
       .catch((err) => {
@@ -38,22 +37,11 @@ const HomePage = () => {
       });
   }, []);
 
-  // console.log({ games });
-
   const navigate = useNavigate();
 
-  //navigation
   const handleSelectGame = (gameId: string) => {
     navigate(`/${gameId}`);
   };
-
-  // const handleSelectGame = (gameId: string) => {
-  //   axios.get(`${baseUrl}/games/${gameId}${keyString}`).then((res) => {
-  //     setSelectedGame(res.data);
-  //     navigate(`/${gameId}`);
-  //     console.log(res.data);
-  //   });
-  // };
 
   return (
     <div>

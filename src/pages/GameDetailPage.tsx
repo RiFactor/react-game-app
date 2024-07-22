@@ -6,14 +6,12 @@ import { baseUrl, Game, keyString } from "./HomePage";
 const GameDetailPage = () => {
   const [selectedGame, setSelectedGame] = useState<Game>();
   const { gameId } = useParams();
-  console.log(gameId);
 
   useEffect(() => {
     axios
       .get(`${baseUrl}/games/${gameId}${keyString}`)
       .then((res) => {
         setSelectedGame(res.data);
-        console.log(res.data);
       })
       .catch((err) => console.error("Error fetching game detail", err));
   }, [gameId]);
