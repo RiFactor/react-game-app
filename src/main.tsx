@@ -5,16 +5,16 @@ import "./index.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import GameDetailPage from "./pages/GameDetailPage.tsx";
 import NoPageFound from "./pages/NoPageFound.tsx";
-import HomePage from "./pages/HomePage.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
         {/* Layout */}
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<App />} />
         {/* <Route index element={<App />} /> */}
-        <Route path="/game" element={<GameDetailPage />} />
+        {/* capitalisation matters! */}
+        <Route path="/:gameId" element={<GameDetailPage />} />
         <Route path="*" element={<NoPageFound />} />
       </Routes>
     </BrowserRouter>
