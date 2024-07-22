@@ -5,7 +5,9 @@ import { baseUrl, Game, keyString } from "./HomePage";
 
 const GameDetailPage = () => {
   const [selectedGame, setSelectedGame] = useState<Game>();
-  const { gameId } = useParams();
+  const {
+    gameId, // need to destructure
+  } = useParams<{ gameId: string }>();
 
   useEffect(() => {
     axios
@@ -15,8 +17,6 @@ const GameDetailPage = () => {
       })
       .catch((err) => console.error("Error fetching game detail", err));
   }, [gameId]);
-
-  // const handleSelectGame = (gameId: string) => {};
 
   return <div>{selectedGame?.name}</div>;
 };

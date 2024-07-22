@@ -22,12 +22,15 @@ const HomePage = () => {
   // console.log(process.env);
 
   const [games, setGames] = useState<Game[]>([]);
+  const [selectedGenre, setSelectedGenre] = useState<string | undefined>(); // UX decide whether to unselect when clicking again or have reset option
 
   useEffect(() => {
     axios
       .get(
         //extract the api key to .env
-        `${baseUrl}/games${keyString}`
+        // `${baseUrl}/games${keyString}`
+        `${baseUrl}/games${keyString}`,
+        { params: { genres: selectedGenre } }
       )
       .then((res) => {
         setGames(res.data.results);
@@ -35,7 +38,7 @@ const HomePage = () => {
       .catch((err) => {
         console.error("Error fetching games", err);
       });
-  }, []);
+  }, [selectedGenre]);
 
   const navigate = useNavigate();
 
@@ -45,7 +48,12 @@ const HomePage = () => {
 
   return (
     <div>
-      <MainLayout>
+      <MainLayout
+        handleClick={(slug: string) => {
+          setSelectedGenre(slug);
+          console.log({ genre: selectedGenre });
+        }}
+      >
         <div className="flex">
           {games.map((game) => (
             <GameCard

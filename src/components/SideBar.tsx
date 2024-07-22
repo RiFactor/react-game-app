@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { baseUrl, keyString } from "../pages/HomePage";
 import axios from "axios";
+import Button from "./Button";
 
 type Genre = {
   id: string;
@@ -8,9 +9,16 @@ type Genre = {
   slug: string;
 };
 
-const SideBar = () => {
+interface Props {
+  handleClick: (slug: string) => void;
+}
+
+const SideBar = ({
+  handleClick,
+}: //remember to destructure w/ {braces}
+Props) => {
   const [genres, setGenres] = useState<Genre[]>([]);
-  console.log(genres, "gs");
+
   useEffect(() => {
     axios
       .get(`${baseUrl}/genres${keyString}`)
@@ -25,7 +33,9 @@ const SideBar = () => {
   return (
     <div>
       {genres?.map((genre) => (
-        <p key={genre.id}>{genre.name}</p>
+        <Button onClick={() => handleClick(genre.slug)} key={genre.id}>
+          {genre.name}
+        </Button>
       ))}
     </div>
   );

@@ -8,6 +8,7 @@ import HomePage from "./pages/HomePage";
 // drop down filters
 // side bar
 // search bar
+// extract .get functions (separate from components)
 
 function App() {
   // ToDo add anything else?
