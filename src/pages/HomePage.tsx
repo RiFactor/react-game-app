@@ -3,6 +3,7 @@ import MainLayout from "../components/MainLayout";
 import axios from "axios";
 import GameCard from "../components/GameCard";
 import { useNavigate } from "react-router-dom";
+import { FieldValues } from "react-hook-form";
 
 export type Game = {
   id: number;
@@ -23,6 +24,7 @@ const HomePage = () => {
 
   const [games, setGames] = useState<Game[]>([]);
   const [selectedGenre, setSelectedGenre] = useState<string | undefined>(); // UX decide whether to unselect when clicking again or have reset option
+  const [searchGameName, setSearchGameName] = useState<string | undefined>();
 
   useEffect(() => {
     axios
@@ -30,7 +32,7 @@ const HomePage = () => {
         //extract the api key to .env
         // `${baseUrl}/games${keyString}`
         `${baseUrl}/games${keyString}`,
-        { params: { genres: selectedGenre } }
+        { params: { genres: selectedGenre, search: searchGameName } }
       )
       .then((res) => {
         setGames(res.data.results);
@@ -38,7 +40,8 @@ const HomePage = () => {
       .catch((err) => {
         console.error("Error fetching games", err);
       });
-  }, [selectedGenre]);
+    console.log({ searchGameName });
+  }, [selectedGenre, searchGameName]);
 
   const navigate = useNavigate();
 
@@ -49,12 +52,16 @@ const HomePage = () => {
   return (
     <div>
       <MainLayout
+        handleSearch={(data: FieldValues) =>
+          setSearchGameName(data.searchGameName)
+        }
         handleClick={(slug: string) => {
           setSelectedGenre(slug);
           console.log({ genre: selectedGenre });
         }}
       >
         <div className="flex">
+          {/* ToDo Pagination */}
           {games.map((game) => (
             <GameCard
               key={game.id}

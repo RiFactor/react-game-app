@@ -33,6 +33,7 @@ Props) => {
   return (
     <div>
       {genres?.map((genre) => (
+        // ToDo redux for this
         <Button onClick={() => handleClick(genre.slug)} key={genre.id}>
           {genre.name}
         </Button>
