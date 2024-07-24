@@ -24,7 +24,7 @@ export type Game = {
 };
 
 export const baseUrl = "https://api.rawg.io/api";
-const apiKey = "eb2ec1af874049fdb938b0a822c82e58";
+const apiKey = "eb2ec1af874049fdb938b0a822c82e58"; // ToDo
 export const keyString = `?key=${apiKey}`;
 
 const HomePage = () => {
@@ -36,6 +36,10 @@ const HomePage = () => {
   const [games, setGames] = useState<Game[]>([]);
   const [selectedGenre, setSelectedGenre] = useState<string | undefined>(); // UX decide whether to unselect when clicking again or have reset option
   const [searchGameName, setSearchGameName] = useState<string | undefined>();
+  const [platforms, setPlatforms] = useState<Platform[]>();
+  const [selectedPlatform, setSelectedPlatform] = useState<
+    string | undefined
+  >();
 
   useEffect(() => {
     axios
@@ -43,37 +47,72 @@ const HomePage = () => {
         //extract the api key to .env
         // `${baseUrl}/games${keyString}&genres=action`
         `${baseUrl}/games${keyString}`,
-        { params: { genres: selectedGenre, search: searchGameName } }
+        {
+          params: {
+            genres: selectedGenre,
+            search: searchGameName,
+            parent_platforms: selectedPlatform, // requires id? can be string or number?
+          },
+        }
       )
-      .then((res) => {
-        setGames(res.data.results);
+      .then(({ data }) => {
+        console.log(data.results); // ToDo Destructure further?
+        setGames(data.results);
       })
       .catch((err) => {
         console.error("Error fetching games", err);
       });
-  }, [selectedGenre, searchGameName]);
+    axios
+      .get(`${baseUrl}/platforms/lists/parents${keyString}`) // NB: parent_platforms (not platforms)
+      .then((res) => {
+        setPlatforms(res.data.results);
+      })
+      .catch((err) => console.error("Error fetching platforms", err));
+  }, [selectedGenre, searchGameName, selectedPlatform]);
 
   const navigate = useNavigate();
 
   const handleSelectGame = (gameId: string) => {
     navigate(`/${gameId}`);
   };
+  console.log(platforms, "platforms");
+  // const handleResetFilters = () => {
+  //   // ToDo is this neater to reset everything or will the order matter
+  // };
 
   return (
     <MainLayout
       handleSearch={(data: FieldValues) => {
         setSelectedGenre(undefined);
+        setSelectedPlatform(undefined);
         setSearchGameName(data.searchGameName);
-      }}
+      }} // ToDo not pass props here
       handleClick={(slug: string) => {
         setSearchGameName(undefined); // ToDo clear search bar text
+        setSelectedPlatform(undefined);
         setSelectedGenre(slug);
       }}
     >
-      <div className="flex gap-2">
+      <div className="flex flex-col gap-2 bg-emerald-500">
+        <h1 className="flex flex-row font-bold bg-emerald-400">Games</h1>
+        <select
+          onChange={(e) => {
+            console.log(e.target.value, "selected");
+            setSelectedPlatform(e.target.value);
+            console.log(selectedPlatform);
+          }}
+        >
+          {platforms?.map((platform) => {
+            // console.log(platform, "p");
+            return (
+              // ToDo filter games by selected platform
+              <option value={platform.id}>{platform.name}</option>
+            );
+          })}
+        </select>
+        {/* dropdown for platform and order by: */}
         {/* ToDo Pagination */}
         {games.map((game) => {
-          // console.log(game.parent_platforms[0], "gp");
           return (
             <GameCard
               key={game.id}

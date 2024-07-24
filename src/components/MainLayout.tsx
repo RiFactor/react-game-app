@@ -11,7 +11,7 @@ interface Props {
 const MainLayout = ({ handleClick, handleSearch, children }: Props) => {
   return (
     // ToDo Stop scroll across screen // object-scale-down
-    <div className="flex flex-col gap-2 max-w-screen">
+    <div className="flex flex-col gap-2 w-screen bg-blue-200 px-5 py-5">
       <SearchFilter handleSearch={(data: FieldValues) => handleSearch(data)} />
       <div className="flex gap-2">
         <SideBar handleClick={(slug: string) => handleClick(slug)} />

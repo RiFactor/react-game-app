@@ -31,7 +31,7 @@ Props) => {
   // if (genres.length === 0) return;
 
   return (
-    <div>
+    <div className="flex flex-col gap-2">
       {genres?.map((genre) => (
         // ToDo redux for this
         <Button onClick={() => handleClick(genre.slug)} key={genre.id}>
