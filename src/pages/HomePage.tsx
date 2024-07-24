@@ -100,7 +100,11 @@ const HomePage = () => {
           }}
         >
           {platforms?.map((platform) => {
-            return <option value={platform.id}>{platform.name}</option>;
+            return (
+              <option key={platform.id} value={platform.id}>
+                {platform.name}
+              </option>
+            );
           })}
         </select>
         {/* dropdown for order by: */}
