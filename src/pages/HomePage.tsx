@@ -51,7 +51,7 @@ const HomePage = () => {
           params: {
             genres: selectedGenre,
             search: searchGameName,
-            parent_platforms: selectedPlatform, // requires id? can be string or number?
+            parent_platforms: selectedPlatform, // id can be string or number?
           },
         }
       )
@@ -75,7 +75,6 @@ const HomePage = () => {
   const handleSelectGame = (gameId: string) => {
     navigate(`/${gameId}`);
   };
-  console.log(platforms, "platforms");
   // const handleResetFilters = () => {
   //   // ToDo is this neater to reset everything or will the order matter
   // };
@@ -97,20 +96,14 @@ const HomePage = () => {
         <h1 className="flex flex-row font-bold bg-emerald-400">Games</h1>
         <select
           onChange={(e) => {
-            console.log(e.target.value, "selected");
             setSelectedPlatform(e.target.value);
-            console.log(selectedPlatform);
           }}
         >
           {platforms?.map((platform) => {
-            // console.log(platform, "p");
-            return (
-              // ToDo filter games by selected platform
-              <option value={platform.id}>{platform.name}</option>
-            );
+            return <option value={platform.id}>{platform.name}</option>;
           })}
         </select>
-        {/* dropdown for platform and order by: */}
+        {/* dropdown for order by: */}
         {/* ToDo Pagination */}
         {games.map((game) => {
           return (
