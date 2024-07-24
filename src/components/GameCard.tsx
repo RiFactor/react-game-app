@@ -1,4 +1,6 @@
+import { MdComputer } from "react-icons/md";
 import { Game } from "../pages/HomePage";
+import { FaPlaystation, FaXbox } from "react-icons/fa";
 
 interface Props {
   game: Game;
@@ -15,11 +17,23 @@ const GameCard = ({ game, onClick }: Props) => {
         alt="background_image"
       />
       {game.name}
-      {game.parent_platforms?.map((p: any) => {
-        return (
-          <p key={p.platform.id}>platforms: {p.platform.name}</p> // lastly - map to icons
-        );
-      })}
+      <div className="flex gap-2">
+        {game.parent_platforms?.map(({ platform }: any) => {
+          return (
+            <p key={platform.id}>
+              {platform?.name === "PC" ? (
+                <MdComputer />
+              ) : platform?.name === "PlayStation" ? (
+                <FaPlaystation />
+              ) : platform?.name === "Xbox" ? (
+                <FaXbox />
+              ) : (
+                `platforms: ${platform.name}`
+              )}
+            </p> // lastly - map to icons
+          );
+        })}
+      </div>
     </div>
   );
 };

@@ -10,15 +10,11 @@ const SearchFilter = ({ handleSearch, searchGameName }: Props) => {
     register,
     handleSubmit,
     setValue,
-    reset,
-    // watch,
     formState: { errors },
   } = useForm({ defaultValues: { searchGameName: searchGameName } });
 
   const onSubmit: SubmitHandler<FieldValues> = ({ searchGameName }) => {
-    // preventDefault() ?
     handleSearch(searchGameName);
-    // reset;
   };
 
   return (
