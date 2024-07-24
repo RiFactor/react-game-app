@@ -9,13 +9,16 @@ const SearchFilter = ({ handleSearch, searchGameName }: Props) => {
   const {
     register,
     handleSubmit,
+    setValue,
+    reset,
     // watch,
     formState: { errors },
-  } = useForm();
+  } = useForm({ defaultValues: { searchGameName: searchGameName } });
 
   const onSubmit: SubmitHandler<FieldValues> = ({ searchGameName }) => {
     // preventDefault() ?
     handleSearch(searchGameName);
+    // reset;
   };
 
   return (
@@ -24,17 +27,14 @@ const SearchFilter = ({ handleSearch, searchGameName }: Props) => {
         // ToDo clear text when reset and hit enter to submit
         {...register("searchGameName")}
         onChange={(e) => {
-          // e.preventDefault(); // is this needed
-          console.log(e.target.value);
-          handleSearch(e.target.value); // ToDo: works but further bugs with hitting enter resets value or deletes last entry, not resetting value
+          handleSearch(e.target.value);
+          setValue("searchGameName", e.target.value);
         }}
-        value={searchGameName}
         type="text"
         placeholder="Search Game..."
         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       />
       {errors.searchGameName && <p>Please try again</p>}
-      {/* <input type="submit"></input> */}
       <button type="submit">Search Icon</button>
     </form>
   );
