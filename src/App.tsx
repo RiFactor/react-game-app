@@ -12,7 +12,11 @@ import HomePage from "./pages/HomePage";
 
 function App() {
   // ToDo add anything else?
-  return <HomePage />;
+  return (
+    <div className="flex max-w-screen">
+      <HomePage />
+    </div>
+  );
 }
 
 export default App;

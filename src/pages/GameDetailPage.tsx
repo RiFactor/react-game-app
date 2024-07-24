@@ -18,7 +18,19 @@ const GameDetailPage = () => {
       .catch((err) => console.error("Error fetching game detail", err));
   }, [gameId]);
 
-  return <div>{selectedGame?.name}</div>;
+
+
+  return (
+    <div>
+      {selectedGame?.name}
+      <img
+        width={900}
+        height={900}
+        src={selectedGame?.background_image}
+        alt="background_image"
+      />
+    </div>
+  );
 };
 
 export default GameDetailPage;

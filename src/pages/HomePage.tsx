@@ -5,11 +5,22 @@ import GameCard from "../components/GameCard";
 import { useNavigate } from "react-router-dom";
 import { FieldValues } from "react-hook-form";
 
+export type Platform = {
+  id: number;
+  name: string;
+  // slug: string;
+};
+
+export type PlatformObject = {
+  platform: Platform;
+};
+
 export type Game = {
   id: number;
   slug: string;
   name: string;
-  image_background: string;
+  background_image: string;
+  parent_platforms: any;
 };
 
 export const baseUrl = "https://api.rawg.io/api";
@@ -40,7 +51,6 @@ const HomePage = () => {
       .catch((err) => {
         console.error("Error fetching games", err);
       });
-    console.log({ searchGameName });
   }, [selectedGenre, searchGameName]);
 
   const navigate = useNavigate();
@@ -50,30 +60,30 @@ const HomePage = () => {
   };
 
   return (
-    <div>
-      <MainLayout
-        handleSearch={(data: FieldValues) => {
-          setSelectedGenre(undefined);
-          setSearchGameName(data.searchGameName);
-        }}
-        handleClick={(slug: string) => {
-          setSearchGameName(undefined); // ToDo clear search bar text
-          setSelectedGenre(slug);
-          console.log({ genre: selectedGenre });
-        }}
-      >
-        <div className="flex">
-          {/* ToDo Pagination */}
-          {games.map((game) => (
+    <MainLayout
+      handleSearch={(data: FieldValues) => {
+        setSelectedGenre(undefined);
+        setSearchGameName(data.searchGameName);
+      }}
+      handleClick={(slug: string) => {
+        setSearchGameName(undefined); // ToDo clear search bar text
+        setSelectedGenre(slug);
+      }}
+    >
+      <div className="flex gap-2">
+        {/* ToDo Pagination */}
+        {games.map((game) => {
+          // console.log(game.parent_platforms[0], "gp");
+          return (
             <GameCard
               key={game.id}
               game={game}
               onClick={() => handleSelectGame(game.slug)}
             />
-          ))}
-        </div>
-      </MainLayout>
-    </div>
+          );
+        })}
+      </div>
+    </MainLayout>
   );
 };
 
