@@ -23,7 +23,7 @@ const SearchFilter = ({ handleSearch, searchGameName }: Props) => {
         // ToDo clear text when reset and hit enter to submit
         {...register("searchGameName")}
         onChange={(e) => {
-          console.log(e);
+          console.log(e.target.value);
           handleSearch(e.target.value); // ToDo: works but further bugs with hitting enter resets value or deletes last entry, not resetting value
         }}
         value={searchGameName}

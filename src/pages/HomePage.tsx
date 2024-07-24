@@ -36,38 +36,46 @@ const HomePage = () => {
   const [games, setGames] = useState<Game[]>([]);
   const [selectedGenre, setSelectedGenre] = useState<string | undefined>(); // UX decide whether to unselect when clicking again or have reset option
   const [searchGameName, setSearchGameName] = useState<string>("");
-  const [platforms, setPlatforms] = useState<Platform[]>();
+  const [platforms, setPlatforms] = useState<Platform[]>([]);
   const [selectedPlatform, setSelectedPlatform] = useState<
     string | undefined
   >();
 
   useEffect(() => {
-    axios
-      .get(
-        //extract the api key to .env
-        // `${baseUrl}/games${keyString}&genres=action`
-        `${baseUrl}/games${keyString}`,
-        {
-          params: {
-            genres: selectedGenre,
-            search: searchGameName,
-            parent_platforms: selectedPlatform, // id can be string or number?
-          },
-        }
-      )
-      .then(({ data }) => {
-        console.log(data.results); // ToDo Destructure further?
+    const fetchGames = async () => {
+      try {
+        const { data } = await axios.get(
+          //extract the api key to .env
+          // `${baseUrl}/games${keyString}&genres=action`
+          `${baseUrl}/games${keyString}`,
+          {
+            params: {
+              genres: selectedGenre,
+              search: searchGameName,
+              parent_platforms: selectedPlatform, // id can be string or number?
+            },
+          }
+        );
+        console.log(data.results, "games"); // ToDo Destructure further?
         setGames(data.results);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error("Error fetching games", err);
-      });
-    axios
-      .get(`${baseUrl}/platforms/lists/parents${keyString}`) // NB: parent_platforms (not platforms)
-      .then((res) => {
-        setPlatforms(res.data.results);
-      })
-      .catch((err) => console.error("Error fetching platforms", err));
+      }
+    };
+
+    const fetchPlatforms = async () => {
+      try {
+        const { data } = await axios.get(
+          `${baseUrl}/platforms/lists/parents${keyString}`
+        ); // NB: parent_platforms (not platforms)
+        setPlatforms(data.results);
+      } catch (err) {
+        console.error("Error fetching platforms", err);
+      }
+    };
+
+    fetchGames();
+    fetchPlatforms();
   }, [selectedGenre, searchGameName, selectedPlatform]);
 
   const navigate = useNavigate();
@@ -95,12 +103,14 @@ const HomePage = () => {
     >
       <div className="flex flex-col gap-2 bg-emerald-500">
         <h1 className="flex flex-row font-bold bg-emerald-400">Games</h1>
+        {/* Extract Select */}
         <select
           onChange={(e) => {
             // ToDo reset genre and gamename here?
             setSelectedPlatform(e.target.value);
           }}
         >
+          {/* <option value={undefined}>Select Platform...</option> // need to be able to reset */}
           {platforms?.map((platform) => {
             return (
               <option key={platform.id} value={platform.id}>
@@ -111,15 +121,30 @@ const HomePage = () => {
         </select>
         {/* dropdown for order by: */}
         {/* ToDo Pagination */}
-        {games.map((game) => {
-          return (
-            <GameCard
-              key={game.id}
-              game={game}
-              onClick={() => handleSelectGame(game.slug)}
-            />
-          );
-        })}
+
+        {
+          // if (!games) return;
+          // games &&
+
+          games === undefined ||
+            (games.length === 0 ? (
+              <p className="font-bold">No Games Found</p>
+            ) : (
+              // games.length > 0 ? (
+              games.map((game) => {
+                return (
+                  <GameCard
+                    key={game.id}
+                    game={game}
+                    onClick={() => handleSelectGame(game.slug)}
+                  />
+                );
+              })
+            ))
+          // : (
+          //   <p>No Games Found</p>
+          // )
+        }
       </div>
     </MainLayout>
   );
