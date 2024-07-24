@@ -1,14 +1,11 @@
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
-// type Input = {
-//   searchGameName: string;
-// };
-
 interface Props {
-  handleSearch: (data: FieldValues) => void;
+  handleSearch: (data: string) => void; // FieldValues
+  searchGameName: string;
 }
 
-const SearchFilter = ({ handleSearch }: Props) => {
+const SearchFilter = ({ handleSearch, searchGameName }: Props) => {
   const {
     register,
     handleSubmit,
@@ -16,21 +13,20 @@ const SearchFilter = ({ handleSearch }: Props) => {
     formState: { errors },
   } = useForm();
 
-  // console.log(watch("searchGameName"));
-
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    handleSearch(data);
+  const onSubmit: SubmitHandler<FieldValues> = ({ searchGameName }) => {
+    handleSearch(searchGameName);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="mb-3 flex">
       <input
-        // ToDo clear text when reset and hit enter to submit  / update dynamically while typing (controlled?)
+        // ToDo clear text when reset and hit enter to submit
         {...register("searchGameName")}
-        // onChange={(e) => {
-        //   // console.log(e);
-        //   // handleSearch(e.target.value)
-        // }}
+        onChange={(e) => {
+          console.log(e);
+          handleSearch(e.target.value); // ToDo: works but further bugs with hitting enter resets value or deletes last entry, not resetting value
+        }}
+        value={searchGameName}
         type="text"
         placeholder="Search Game..."
         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"

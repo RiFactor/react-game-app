@@ -35,7 +35,7 @@ const HomePage = () => {
 
   const [games, setGames] = useState<Game[]>([]);
   const [selectedGenre, setSelectedGenre] = useState<string | undefined>(); // UX decide whether to unselect when clicking again or have reset option
-  const [searchGameName, setSearchGameName] = useState<string | undefined>();
+  const [searchGameName, setSearchGameName] = useState<string>("");
   const [platforms, setPlatforms] = useState<Platform[]>();
   const [selectedPlatform, setSelectedPlatform] = useState<
     string | undefined
@@ -81,13 +81,14 @@ const HomePage = () => {
 
   return (
     <MainLayout
-      handleSearch={(data: FieldValues) => {
+      searchGameName={searchGameName}
+      handleSearch={(data: string) => {
         setSelectedGenre(undefined);
         setSelectedPlatform(undefined);
-        setSearchGameName(data.searchGameName);
+        setSearchGameName(data);
       }} // ToDo not pass props here
       handleClick={(slug: string) => {
-        setSearchGameName(undefined); // ToDo clear search bar text
+        setSearchGameName(""); // ToDo clear search bar text
         setSelectedPlatform(undefined);
         setSelectedGenre(slug);
       }}
@@ -96,6 +97,7 @@ const HomePage = () => {
         <h1 className="flex flex-row font-bold bg-emerald-400">Games</h1>
         <select
           onChange={(e) => {
+            // ToDo reset genre and gamename here?
             setSelectedPlatform(e.target.value);
           }}
         >
