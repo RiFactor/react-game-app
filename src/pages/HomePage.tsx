@@ -3,7 +3,6 @@ import MainLayout from "../components/MainLayout";
 import axios from "axios";
 import GameCard from "../components/GameCard";
 import { useNavigate } from "react-router-dom";
-import { MdComputer } from "react-icons/md";
 import { Spinner } from "@chakra-ui/react";
 
 export type Platform = {
@@ -113,8 +112,8 @@ const HomePage = () => {
         setSelectedGenre(slug);
       }}
     >
-      <div className="flex flex-col gap-2 bg-emerald-500">
-        <h1 className="flex flex-row font-bold bg-emerald-400">Games</h1>
+      <div className="flex flex-col gap-2 bg-emerald-500 w-screen">
+        <h1 className="flex font-bold bg-emerald-400">Games</h1>
         {/* Extract Select */}
         <select
           onChange={(e) => {
@@ -144,15 +143,17 @@ const HomePage = () => {
             // {games === undefined || games.length === 0 ? (
             //   <p className="font-bold">No Games Found</p>
             // ) : (
-            games?.map((game) => {
-              return (
-                <GameCard
-                  key={game.id}
-                  game={game}
-                  onClick={() => handleSelectGame(game.slug)}
-                />
-              );
-            })
+            <div className="flex flex-wrap gap-5">
+              {games?.map((game) => {
+                return (
+                  <GameCard
+                    key={game.id}
+                    game={game}
+                    onClick={() => handleSelectGame(game.slug)}
+                  />
+                );
+              })}
+            </div>
           )
           // )
         }
