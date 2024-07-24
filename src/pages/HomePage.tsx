@@ -24,14 +24,18 @@ export type Game = {
 };
 
 export const baseUrl = "https://api.rawg.io/api";
-const apiKey = "eb2ec1af874049fdb938b0a822c82e58"; // ToDo
+let apiKey: string;
+
+if (typeof process !== "undefined" && process.env.REACT_APP_API_KEY) {
+  apiKey = process.env.REACT_APP_API_KEY;
+} else {
+  apiKey = "eb2ec1af874049fdb938b0a822c82e58";
+}
+
 export const keyString = `?key=${apiKey}`;
 
 const HomePage = () => {
   //Layout
-  // const apiKey = process.env.API_KEY;
-  // console.log({ apiKey });
-  // console.log(process.env);
 
   const [games, setGames] = useState<Game[]>([]);
   const [selectedGenre, setSelectedGenre] = useState<string | undefined>(); // UX decide whether to unselect when clicking again or have reset option
@@ -122,29 +126,19 @@ const HomePage = () => {
         {/* dropdown for order by: */}
         {/* ToDo Pagination */}
 
-        {
-          // if (!games) return;
-          // games &&
-
-          games === undefined ||
-            (games.length === 0 ? (
-              <p className="font-bold">No Games Found</p>
-            ) : (
-              // games.length > 0 ? (
-              games.map((game) => {
-                return (
-                  <GameCard
-                    key={game.id}
-                    game={game}
-                    onClick={() => handleSelectGame(game.slug)}
-                  />
-                );
-              })
-            ))
-          // : (
-          //   <p>No Games Found</p>
-          // )
-        }
+        {games === undefined || games.length === 0 ? (
+          <p className="font-bold">No Games Found</p>
+        ) : (
+          games?.map((game) => {
+            return (
+              <GameCard
+                key={game.id}
+                game={game}
+                onClick={() => handleSelectGame(game.slug)}
+              />
+            );
+          })
+        )}
       </div>
     </MainLayout>
   );

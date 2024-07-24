@@ -15,9 +15,9 @@ const GameCard = ({ game, onClick }: Props) => {
         alt="background_image"
       />
       {game.name}
-      {game.parent_platforms.map((p: any) => {
+      {game.parent_platforms?.map((p: any) => {
         return (
-          <p key={p.platform.id}>platforms: {p.platform.name}</p> // finally - map to icons
+          <p key={p.platform.id}>platforms: {p.platform.name}</p> // lastly - map to icons
         );
       })}
     </div>

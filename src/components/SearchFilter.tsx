@@ -14,6 +14,7 @@ const SearchFilter = ({ handleSearch, searchGameName }: Props) => {
   } = useForm();
 
   const onSubmit: SubmitHandler<FieldValues> = ({ searchGameName }) => {
+    // preventDefault() ?
     handleSearch(searchGameName);
   };
 
@@ -23,6 +24,7 @@ const SearchFilter = ({ handleSearch, searchGameName }: Props) => {
         // ToDo clear text when reset and hit enter to submit
         {...register("searchGameName")}
         onChange={(e) => {
+          // e.preventDefault(); // is this needed
           console.log(e.target.value);
           handleSearch(e.target.value); // ToDo: works but further bugs with hitting enter resets value or deletes last entry, not resetting value
         }}
