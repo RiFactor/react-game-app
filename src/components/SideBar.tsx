@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { baseUrl, keyString } from "../pages/HomePage";
 import axios from "axios";
 import Button from "./Button";
+import { baseUrl, keyString } from "../constants/api";
 
 type Genre = {
   id: string;
