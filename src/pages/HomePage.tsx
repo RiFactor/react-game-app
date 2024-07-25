@@ -5,24 +5,7 @@ import GameCard from "../components/GameCard";
 import { useNavigate } from "react-router-dom";
 import { Spinner } from "@chakra-ui/react";
 import PlatformDropdown from "../components/PlatformDropdown";
-
-export type Platform = {
-  id: number;
-  name: string;
-  // slug: string;
-};
-
-export type PlatformObject = {
-  platform: Platform;
-};
-
-export type Game = {
-  id: number;
-  slug: string;
-  name: string;
-  background_image: string;
-  parent_platforms: any;
-};
+import { Game, Platform } from "../types/apiTypes";
 
 export const baseUrl = "https://api.rawg.io/api";
 let apiKey: string;

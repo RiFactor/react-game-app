@@ -28,7 +28,7 @@ Props) => {
       .catch((err) => console.error("Error fetching Genre", err));
   }, []);
 
-  // if (genres.length === 0) return;
+  if (genres.length === 0) return null; // If optionally mapping is this needed
 
   return (
     <div className="flex flex-col gap-2">

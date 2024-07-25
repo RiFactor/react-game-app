@@ -1,5 +1,4 @@
 import { MdComputer } from "react-icons/md";
-import { Game } from "../pages/HomePage";
 import { FaPlaystation, FaXbox } from "react-icons/fa";
 import {
   Box,
@@ -9,6 +8,7 @@ import {
   Stack,
   Image,
 } from "@chakra-ui/react";
+import { Game } from "../types/apiTypes";
 
 interface Props {
   game: Game;

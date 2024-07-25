@@ -1,4 +1,3 @@
-import { FieldValues } from "react-hook-form";
 import SearchFilter from "./SearchFilter";
 import SideBar from "./SideBar";
 

@@ -1,4 +1,4 @@
-import { Platform } from "../pages/HomePage";
+import { Platform } from "../types/apiTypes";
 
 // Refactor to reusable component
 interface Props {
@@ -7,9 +7,9 @@ interface Props {
 }
 
 //ToDo check
-// if (platforms)
 
 const PlatformDropdown = ({ setSelectedPlatform, platforms }: Props) => {
+  if (platforms?.length === 0) return null; // if optionally chaining is this needed
   return (
     <select
       onChange={(e) => {
@@ -19,7 +19,6 @@ const PlatformDropdown = ({ setSelectedPlatform, platforms }: Props) => {
       }}
     >
       <option value="">Select Platform...</option>
-      {/* // need to be able to reset */}
       {platforms?.map((platform: Platform) => {
         return (
           <option key={platform.id} value={platform.id}>
@@ -27,6 +26,8 @@ const PlatformDropdown = ({ setSelectedPlatform, platforms }: Props) => {
           </option>
         );
       })}
+      {/* // need to be able to reset */}
+      {/* <input type="reset" value="reset" /> */}
     </select>
   );
 };
