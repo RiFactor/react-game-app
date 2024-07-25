@@ -4,6 +4,7 @@ import axios from "axios";
 import GameCard from "../components/GameCard";
 import { useNavigate } from "react-router-dom";
 import { Spinner } from "@chakra-ui/react";
+import PlatformDropdown from "../components/PlatformDropdown";
 
 export type Platform = {
   id: number;
@@ -50,11 +51,17 @@ const HomePage = () => {
     const fetchGames = async () => {
       setIsLoading(true);
       try {
-        const { data } = await axios.get(
+        const {
+          data: { results },
+        } = await axios.get(
           //extract the api key to .env
           // `${baseUrl}/games${keyString}&genres=action`
           `${baseUrl}/games${keyString}`,
+          // `${baseUrl}/games`,
           {
+            // headers: {
+            //   // Authorization: `bearer${keyString}`,
+            // },
             params: {
               genres: selectedGenre,
               search: searchGameName,
@@ -62,8 +69,8 @@ const HomePage = () => {
             },
           }
         );
-        console.log(data, "games"); // ToDo Destructure further?
-        setGames(data.results);
+        // console.log(results, "games"); // ToDo Destructure further?
+        setGames(results);
         setIsLoading(false);
       } catch (err) {
         console.error("Error fetching games", err);
@@ -74,10 +81,10 @@ const HomePage = () => {
     const fetchPlatforms = async () => {
       setIsLoading(true);
       try {
-        const { data } = await axios.get(
-          `${baseUrl}/platforms/lists/parents${keyString}`
-        ); // NB: parent_platforms (not platforms)
-        setPlatforms(data.results);
+        const {
+          data: { results },
+        } = await axios.get(`${baseUrl}/platforms/lists/parents${keyString}`); // NB: parent_platforms (not platforms)
+        setPlatforms(results);
         setIsLoading(false);
       } catch (err) {
         console.error("Error fetching platforms", err);
@@ -115,25 +122,17 @@ const HomePage = () => {
       <div className="flex flex-col gap-2 bg-emerald-500 w-screen">
         <h1 className="flex font-bold bg-emerald-400">Games</h1>
         {/* Extract Select */}
-        <select
-          onChange={(e) => {
+        <PlatformDropdown
+          setSelectedPlatform={(platform: string | undefined) => {
             setSelectedPlatform(
-              e.target.value !== "" ? e.target.value : undefined // can't pass undefined as a value
+              platform !== "" ? platform : undefined // can't pass undefined as a value
             );
             setSearchGameName("");
             setSelectedGenre(undefined);
           }}
-        >
-          <option value="">Select Platform...</option>
-          {/* // need to be able to reset */}
-          {platforms?.map((platform) => {
-            return (
-              <option key={platform.id} value={platform.id}>
-                {platform.name}
-              </option>
-            );
-          })}
-        </select>
+          platforms={platforms}
+        />
+
         {/* dropdown for order by: */}
         {/* ToDo Pagination */}
         {
