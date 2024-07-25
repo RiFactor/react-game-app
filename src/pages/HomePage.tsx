@@ -1,40 +1,51 @@
 import { useEffect, useState } from "react";
 import MainLayout from "../components/MainLayout";
-import axios from "axios";
 import GameCard from "../components/GameCard";
 import { useNavigate } from "react-router-dom";
 import { Spinner } from "@chakra-ui/react";
 import PlatformDropdown from "../components/PlatformDropdown";
 import { Game, Platform } from "../types/apiTypes";
-import { baseUrl, keyString } from "../constants/api";
+import { keyString } from "../constants/api";
+import apiClient, { AxiosError, CanceledError } from "../services/api-client";
 
 const HomePage = () => {
   //Layout
+  // ToDo clean up other calls
+  // Tip: Broswer Components -> see state updating
 
   const [games, setGames] = useState<Game[]>([]);
   const [selectedGenre, setSelectedGenre] = useState<string | undefined>(); // UX decide whether to unselect when clicking again or have reset option
   const [searchGameName, setSearchGameName] = useState<string>("");
   const [platforms, setPlatforms] = useState<Platform[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [selectedPlatform, setSelectedPlatform] = useState<
     string | undefined
   >();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
+    // Tip: Browser -> Network -> Fetch/XHR( XML HTTP Request) to see requests
+    // get async -> await promise -> res / err
+    const controller = new AbortController();
+
     const fetchGames = async () => {
       setIsLoading(true);
       try {
         const {
           data: { results },
-        } = await axios.get(
+        } = await apiClient.get(
           //extract the api key to .env
           // `${baseUrl}/games${keyString}&genres=action`
-          `${baseUrl}/games${keyString}`,
-          // `${baseUrl}/games`,
+          `/games${keyString}`,
+          // `/games`,
           {
             // headers: {
             //   // Authorization: `bearer${keyString}`,
             // },
+            // headers: {
+            //   Authorization: keyString,
+            // },
+            signal: controller.signal,
             params: {
               genres: selectedGenre,
               search: searchGameName,
@@ -45,9 +56,13 @@ const HomePage = () => {
         setGames(results);
         setIsLoading(false);
       } catch (err) {
+        // type
+        if (err instanceof CanceledError) return;
+        setError((err as AxiosError).message);
         console.error("Error fetching games", err);
         setIsLoading(false);
       }
+      // NB finally doesn't work on strictMode for setting setIsLoading(false)
     };
 
     const fetchPlatforms = async () => {
@@ -55,10 +70,13 @@ const HomePage = () => {
       try {
         const {
           data: { results },
-        } = await axios.get(`${baseUrl}/platforms/lists/parents${keyString}`); // NB: parent_platforms (not platforms)
+        } = await apiClient.get(`/platforms/lists/parents${keyString}`, {
+          signal: controller.signal,
+        }); // NB: parent_platforms (not platforms)
         setPlatforms(results);
         setIsLoading(false);
       } catch (err) {
+        if (err instanceof CanceledError) return;
         console.error("Error fetching platforms", err);
         setIsLoading(false);
       }
@@ -66,6 +84,7 @@ const HomePage = () => {
 
     fetchGames();
     fetchPlatforms();
+    return () => controller.abort();
   }, [selectedGenre, searchGameName, selectedPlatform]);
 
   const navigate = useNavigate();
@@ -92,6 +111,8 @@ const HomePage = () => {
       }}
     >
       <div className="flex flex-col gap-2 bg-emerald-500 w-screen">
+        {/* ToDo user-friendly error messages */}
+        {error && <p className="text-red-500">{error}</p>}
         <h1 className="flex font-bold bg-emerald-400">Games</h1>
         {/* Extract Select */}
         <PlatformDropdown
