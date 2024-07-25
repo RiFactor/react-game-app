@@ -5,18 +5,28 @@ import { useNavigate } from "react-router-dom";
 import { Spinner } from "@chakra-ui/react";
 import PlatformDropdown from "../components/PlatformDropdown";
 import { Game, Platform } from "../types/apiTypes";
-import { keyString } from "../constants/api";
-import apiClient, { AxiosError, CanceledError } from "../services/api-client";
+import { AxiosError, CanceledError } from "../services/api-client";
+import gameService from "../services/game-service";
+import platformService from "../services/platform-service";
+
+//Layout
+// ToDo clean up other calls
+// Tip: Broswer Components -> see state updating
+// NB finally doesn't work on strictMode for setting setIsLoading(false)
+// UX decide whether to unselect when clicking again or have reset option
+// Tip: Browser -> Network -> Fetch/XHR( XML HTTP Request) to see requests
+// get async -> await promise -> res / err
+// can use try-catch async-await
+// Where to set isLoading(true)
+// user-friendly error messages
+/* dropdown for order by: */
+// * ToDo Pagination */
 
 const HomePage = () => {
-  //Layout
-  // ToDo clean up other calls
-  // Tip: Broswer Components -> see state updating
-
   const [games, setGames] = useState<Game[]>([]);
-  const [selectedGenre, setSelectedGenre] = useState<string | undefined>(); // UX decide whether to unselect when clicking again or have reset option
+  const [selectedGenre, setSelectedGenre] = useState<string | undefined>();
   const [searchGameName, setSearchGameName] = useState<string>("");
-  const [platforms, setPlatforms] = useState<Platform[]>([]);
+  const [platforms, setPlatforms] = useState<Platform[]>([]); // NB: parent_platforms (not platforms)
   const [selectedPlatform, setSelectedPlatform] = useState<
     string | undefined
   >();
@@ -24,67 +34,41 @@ const HomePage = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    // Tip: Browser -> Network -> Fetch/XHR( XML HTTP Request) to see requests
-    // get async -> await promise -> res / err
-    const controller = new AbortController();
-
-    const fetchGames = async () => {
-      setIsLoading(true);
-      try {
-        const {
-          data: { results },
-        } = await apiClient.get(
-          //extract the api key to .env
-          // `${baseUrl}/games${keyString}&genres=action`
-          `/games${keyString}`,
-          // `/games`,
-          {
-            // headers: {
-            //   // Authorization: `bearer${keyString}`,
-            // },
-            // headers: {
-            //   Authorization: keyString,
-            // },
-            signal: controller.signal,
-            params: {
-              genres: selectedGenre,
-              search: searchGameName,
-              parent_platforms: selectedPlatform, // id can be string or number?
-            },
-          }
-        );
-        setGames(results);
+    setIsLoading(true);
+    const { request, cancel } = gameService.getAllGames({
+      searchGameName,
+      selectedGenre,
+      selectedPlatform,
+    });
+    request
+      .then((res) => {
+        setGames(res.data.results);
         setIsLoading(false);
-      } catch (err) {
-        // type
+      })
+      .catch((err) => {
         if (err instanceof CanceledError) return;
         setError((err as AxiosError).message);
         console.error("Error fetching games", err);
         setIsLoading(false);
-      }
-      // NB finally doesn't work on strictMode for setting setIsLoading(false)
-    };
+      });
 
-    const fetchPlatforms = async () => {
-      setIsLoading(true);
-      try {
-        const {
-          data: { results },
-        } = await apiClient.get(`/platforms/lists/parents${keyString}`, {
-          signal: controller.signal,
-        }); // NB: parent_platforms (not platforms)
-        setPlatforms(results);
+    const { platformRequest, platformCancel } =
+      platformService.getAllPlatforms();
+    platformRequest
+      .then((res: any) => {
+        setPlatforms(res.data.results);
         setIsLoading(false);
-      } catch (err) {
+      })
+      .catch((err: AxiosError) => {
         if (err instanceof CanceledError) return;
         console.error("Error fetching platforms", err);
         setIsLoading(false);
-      }
-    };
+      });
 
-    fetchGames();
-    fetchPlatforms();
-    return () => controller.abort();
+    return () => {
+      cancel();
+      platformCancel();
+    };
   }, [selectedGenre, searchGameName, selectedPlatform]);
 
   const navigate = useNavigate();
@@ -92,6 +76,7 @@ const HomePage = () => {
   const handleSelectGame = (gameId: string) => {
     navigate(`/${gameId}`);
   };
+
   // const handleResetFilters = () => {
   //   // ToDo is this neater to reset everything or will the order matter
   // };
@@ -111,10 +96,8 @@ const HomePage = () => {
       }}
     >
       <div className="flex flex-col gap-2 bg-emerald-500 w-screen">
-        {/* ToDo user-friendly error messages */}
         {error && <p className="text-red-500">{error}</p>}
         <h1 className="flex font-bold bg-emerald-400">Games</h1>
-        {/* Extract Select */}
         <PlatformDropdown
           setSelectedPlatform={(platform: string | undefined) => {
             setSelectedPlatform(
@@ -126,29 +109,24 @@ const HomePage = () => {
           platforms={platforms}
         />
 
-        {/* dropdown for order by: */}
-        {/* ToDo Pagination */}
-        {
-          isLoading ? (
-            <Spinner />
-          ) : (
-            // {games === undefined || games.length === 0 ? (
-            //   <p className="font-bold">No Games Found</p>
-            // ) : (
-            <div className="flex flex-wrap gap-5">
-              {games?.map((game) => {
-                return (
-                  <GameCard
-                    key={game.id}
-                    game={game}
-                    onClick={() => handleSelectGame(game.slug)}
-                  />
-                );
-              })}
-            </div>
-          )
-          // )
-        }
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          // {games === undefined || games.length === 0 ? (
+          //   <p className="font-bold">No Games Found</p>
+          // ) : (
+          <div className="flex flex-wrap gap-5">
+            {games?.map((game) => {
+              return (
+                <GameCard
+                  key={game.id}
+                  game={game}
+                  onClick={() => handleSelectGame(game.slug)}
+                />
+              );
+            })}
+          </div>
+        )}
       </div>
     </MainLayout>
   );
