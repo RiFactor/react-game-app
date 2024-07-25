@@ -6,17 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Spinner } from "@chakra-ui/react";
 import PlatformDropdown from "../components/PlatformDropdown";
 import { Game, Platform } from "../types/apiTypes";
-
-export const baseUrl = "https://api.rawg.io/api";
-let apiKey: string;
-
-if (typeof process !== "undefined" && process.env.REACT_APP_API_KEY) {
-  apiKey = process.env.REACT_APP_API_KEY;
-} else {
-  apiKey = "eb2ec1af874049fdb938b0a822c82e58";
-}
-
-export const keyString = `?key=${apiKey}`;
+import { baseUrl, keyString } from "../constants/api";
 
 const HomePage = () => {
   //Layout
@@ -52,7 +42,6 @@ const HomePage = () => {
             },
           }
         );
-        // console.log(results, "games"); // ToDo Destructure further?
         setGames(results);
         setIsLoading(false);
       } catch (err) {
