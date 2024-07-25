@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { baseUrl, keyString } from "../pages/HomePage";
 import axios from "axios";
 import Button from "./Button";
+import { baseUrl, keyString } from "../constants/api";
 
 type Genre = {
   id: string;
@@ -28,7 +28,7 @@ Props) => {
       .catch((err) => console.error("Error fetching Genre", err));
   }, []);
 
-  // if (genres.length === 0) return;
+  if (genres.length === 0) return null; // If optionally mapping is this needed
 
   return (
     <div className="flex flex-col gap-2">

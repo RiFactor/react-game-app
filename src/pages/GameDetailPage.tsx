@@ -1,7 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { baseUrl, Game, keyString } from "./HomePage";
+import { Game } from "../types/apiTypes";
+import { baseUrl, keyString } from "../constants/api";
 
 const GameDetailPage = () => {
   const [selectedGame, setSelectedGame] = useState<Game>();
@@ -17,8 +18,6 @@ const GameDetailPage = () => {
       })
       .catch((err) => console.error("Error fetching game detail", err));
   }, [gameId]);
-
-
 
   return (
     <div>
