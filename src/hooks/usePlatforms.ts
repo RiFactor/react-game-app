@@ -5,6 +5,7 @@ import { Platform } from "../types/apiTypes";
 
 const usePlatforms = () => {
   const [platforms, setPlatforms] = useState<Platform[]>([]); // NB: parent_platforms (not platforms)
+  // error
 
   useEffect(() => {
     const { request, cancel } = platformService.getAllPlatforms();

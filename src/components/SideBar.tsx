@@ -1,12 +1,5 @@
-import { useEffect, useState } from "react";
+import useGenres from "../hooks/useGenres";
 import Button from "./Button";
-import apiClient from "../services/api-client";
-
-type Genre = {
-  id: string;
-  name: string;
-  slug: string;
-};
 
 interface Props {
   handleClick: (slug: string) => void;
@@ -16,16 +9,7 @@ const SideBar = ({
   handleClick,
 }: //remember to destructure w/ {braces}
 Props) => {
-  const [genres, setGenres] = useState<Genre[]>([]);
-
-  useEffect(() => {
-    apiClient
-      .get("/genres")
-      .then((res) => {
-        setGenres(res.data.results);
-      })
-      .catch((err) => console.error("Error fetching Genre", err));
-  }, []);
+  const { genres } = useGenres();
 
   if (genres.length === 0) return null; // If optionally mapping is this needed
 
