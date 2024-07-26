@@ -20,11 +20,13 @@ const useGames = () => {
 
   useEffect(() => {
     setIsLoading(true);
+
     const { request, cancel } = gameService.getAllGames<IFetchGamesResponse>({
       searchGameName,
       selectedGenre,
       selectedPlatform,
     });
+
     request
       .then(({ data: { results } }) => {
         setGames(results);

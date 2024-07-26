@@ -11,7 +11,6 @@ class GameService {
     const controller = new AbortController();
 
     const request = apiClient.get<T>("/games", {
-      // .get<Game[]>?
       signal: controller.signal,
       params: {
         genres: selectedGenre,

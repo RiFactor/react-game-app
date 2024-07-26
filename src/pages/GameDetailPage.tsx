@@ -22,8 +22,8 @@ const GameDetailPage = () => {
     <div>
       {selectedGame?.name}
       <img
-        width={900}
-        height={900}
+        width={500}
+        height={500}
         src={selectedGame?.background_image}
         alt="background_image"
       />

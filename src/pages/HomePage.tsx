@@ -1,13 +1,10 @@
-import { useEffect, useState } from "react";
 import MainLayout from "../components/MainLayout";
 import GameCard from "../components/GameCard";
 import { useNavigate } from "react-router-dom";
 import { Spinner } from "@chakra-ui/react";
 import PlatformDropdown from "../components/PlatformDropdown";
-import { Platform } from "../types/apiTypes";
-import { AxiosError, CanceledError } from "../services/api-client";
-import platformService from "../services/platform-service";
 import useGames from "../hooks/useGames";
+import usePlatforms from "../hooks/usePlatforms";
 
 //Layout
 // ToDo clean up other calls
@@ -23,7 +20,6 @@ import useGames from "../hooks/useGames";
 // * ToDo Pagination */
 
 const HomePage = () => {
-  const [platforms, setPlatforms] = useState<Platform[]>([]); // NB: parent_platforms (not platforms)
   const {
     games,
     searchGameName,
@@ -36,23 +32,7 @@ const HomePage = () => {
     setSelectedPlatform,
   } = useGames();
 
-  useEffect(() => {
-    const { request, cancel } = platformService.getAllPlatforms();
-    request
-      .then((res: any) => {
-        setPlatforms(res.data.results);
-        // setIsLoading(false);
-      })
-      .catch((err: AxiosError) => {
-        if (err instanceof CanceledError) return;
-        console.error("Error fetching platforms", err);
-        // setIsLoading(false);
-      });
-
-    return () => {
-      cancel();
-    };
-  }, []);
+  const { platforms } = usePlatforms();
 
   const navigate = useNavigate();
 
