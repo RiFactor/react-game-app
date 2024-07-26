@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import Button from "./Button";
-import { baseUrl, keyString } from "../constants/api";
+import apiClient from "../services/api-client";
 
 type Genre = {
   id: string;
@@ -20,8 +19,8 @@ Props) => {
   const [genres, setGenres] = useState<Genre[]>([]);
 
   useEffect(() => {
-    axios
-      .get(`${baseUrl}/genres${keyString}`)
+    apiClient
+      .get("/genres")
       .then((res) => {
         setGenres(res.data.results);
       })

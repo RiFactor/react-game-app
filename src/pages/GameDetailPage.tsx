@@ -1,8 +1,7 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Game } from "../types/apiTypes";
-import { baseUrl, keyString } from "../constants/api";
+import apiClient from "../services/api-client";
 
 const GameDetailPage = () => {
   const [selectedGame, setSelectedGame] = useState<Game>();
@@ -11,8 +10,8 @@ const GameDetailPage = () => {
   } = useParams<{ gameId: string }>();
 
   useEffect(() => {
-    axios
-      .get(`${baseUrl}/games/${gameId}${keyString}`)
+    apiClient
+      .get(`/games/${gameId}`)
       .then((res) => {
         setSelectedGame(res.data);
       })

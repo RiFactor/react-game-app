@@ -1,4 +1,3 @@
-import { keyString } from "../constants/api";
 import apiClient from "./api-client";
 
 interface IProps {
@@ -16,7 +15,7 @@ class HttpService {
   getAll({ searchGameName, selectedGenre, selectedPlatform }: IProps) {
     const controller = new AbortController();
 
-    const request = apiClient.get(`${this.endpoint}${keyString}`, {
+    const request = apiClient.get(`${this.endpoint}`, {
       // .get<Game[]>?
       signal: controller.signal,
       params: {
