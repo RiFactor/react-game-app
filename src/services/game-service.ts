@@ -7,10 +7,10 @@ interface IProps {
 }
 
 class GameService {
-  getAllGames({ searchGameName, selectedGenre, selectedPlatform }: IProps) {
+  getAllGames<T>({ searchGameName, selectedGenre, selectedPlatform }: IProps) {
     const controller = new AbortController();
 
-    const request = apiClient.get("/games", {
+    const request = apiClient.get<T>("/games", {
       // .get<Game[]>?
       signal: controller.signal,
       params: {

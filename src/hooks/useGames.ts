@@ -3,6 +3,11 @@ import { Game } from "../types/apiTypes";
 import gameService from "../services/game-service";
 import { AxiosError, CanceledError } from "axios";
 
+interface IFetchGamesResponse {
+  count: number;
+  results: Game[];
+}
+
 const useGames = () => {
   const [games, setGames] = useState<Game[]>([]);
   const [searchGameName, setSearchGameName] = useState<string>("");
@@ -15,14 +20,14 @@ const useGames = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    const { request, cancel } = gameService.getAllGames({
+    const { request, cancel } = gameService.getAllGames<IFetchGamesResponse>({
       searchGameName,
       selectedGenre,
       selectedPlatform,
     });
     request
-      .then((res) => {
-        setGames(res.data.results);
+      .then(({ data: { results } }) => {
+        setGames(results);
         setIsLoading(false);
       })
       .catch((err) => {
