@@ -18,7 +18,10 @@ const SearchFilter = ({ handleSearch, searchGameName }: Props) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="mb-3 flex">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="mb-3 flex items-center justify-center"
+    >
       <input
         // ToDo clear text when reset
         {...register("searchGameName")}

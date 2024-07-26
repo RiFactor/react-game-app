@@ -16,9 +16,10 @@ import HomePage from "./pages/HomePage";
 function App() {
   // ToDo add anything else?
   return (
-    <div className="flex max-w-screen">
-      <HomePage />
-    </div>
+    // <div className="flex max-w-screen">
+    // <div>
+    <HomePage />
+    // </div>
   );
 }
 

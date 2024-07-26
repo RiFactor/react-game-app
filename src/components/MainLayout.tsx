@@ -1,5 +1,6 @@
-import SearchFilter from "./SearchFilter";
+import { Grid, GridItem, Show } from "@chakra-ui/react";
 import SideBar from "./SideBar";
+import NavBar from "./NavBar";
 
 interface Props {
   handleClick: (slug: string) => void;
@@ -9,23 +10,34 @@ interface Props {
 }
 
 const MainLayout = ({
-  handleClick,
   searchGameName,
   handleSearch,
+  handleClick,
   children,
 }: Props) => {
   return (
-    // ToDo Stop scroll across screen // object-scale-down
-    <div className="flex flex-col gap-2 w-screen bg-blue-200 px-5 py-5">
-      <SearchFilter
-        searchGameName={searchGameName}
-        handleSearch={(data: string) => handleSearch(data)}
-      />
-      <div className="flex gap-2">
-        <SideBar handleClick={(slug: string) => handleClick(slug)} />
+    <Grid
+      templateAreas={{
+        base: `"nav" "main"`,
+        lg: `"nav nav" "aside main"`,
+      }}
+      className="gap-2 p-2"
+    >
+      <GridItem area="nav">
+        <NavBar
+          searchGameName={searchGameName}
+          handleSearch={(data: string) => handleSearch(data)}
+        />
+      </GridItem>
+      <Show above="lg">
+        <GridItem area="aside" background="yellow">
+          <SideBar handleClick={(slug: string) => handleClick(slug)} />
+        </GridItem>
+      </Show>
+      <GridItem className="p-2" area="main" background="magenta">
         {children}
-      </div>
-    </div>
+      </GridItem>
+    </Grid>
   );
 };
 

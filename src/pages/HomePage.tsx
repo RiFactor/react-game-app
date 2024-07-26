@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import MainLayout from "../components/MainLayout";
 import GameCard from "../components/GameCard";
 import { useNavigate } from "react-router-dom";
-import { Spinner } from "@chakra-ui/react";
+import { Button, Spinner } from "@chakra-ui/react";
 import PlatformDropdown from "../components/PlatformDropdown";
 import { Platform } from "../types/apiTypes";
 import { AxiosError, CanceledError } from "../services/api-client";
