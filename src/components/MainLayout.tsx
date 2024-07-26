@@ -30,11 +30,11 @@ const MainLayout = ({
         />
       </GridItem>
       <Show above="lg">
-        <GridItem area="aside" background="yellow">
+        <GridItem area="aside">
           <SideBar handleClick={(slug: string) => handleClick(slug)} />
         </GridItem>
       </Show>
-      <GridItem className="p-2" area="main" background="magenta">
+      <GridItem className="p-2" area="main">
         {children}
       </GridItem>
     </Grid>

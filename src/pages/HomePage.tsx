@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import MainLayout from "../components/MainLayout";
 import GameCard from "../components/GameCard";
 import { useNavigate } from "react-router-dom";
-import { Button, Spinner } from "@chakra-ui/react";
+import { Spinner } from "@chakra-ui/react";
 import PlatformDropdown from "../components/PlatformDropdown";
 import { Platform } from "../types/apiTypes";
 import { AxiosError, CanceledError } from "../services/api-client";
@@ -78,9 +78,9 @@ const HomePage = () => {
         setSelectedGenre(slug);
       }}
     >
-      <div className="flex flex-col gap-2 bg-emerald-500 w-screen">
+      <div className="flex flex-col gap-2">
         {error && <p className="text-red-500">{error}</p>}
-        <h1 className="flex font-bold bg-emerald-400">Games</h1>
+        <h1 className="flex font-bold">Games</h1>
         <PlatformDropdown
           setSelectedPlatform={(platform: string | undefined) => {
             setSelectedPlatform(
