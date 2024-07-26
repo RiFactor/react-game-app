@@ -19,7 +19,7 @@ const MainLayout = ({
     <Grid
       templateAreas={{
         base: `"nav" "main"`,
-        lg: `"nav nav" "aside main"`,
+        md: `"nav nav" "aside main"`,
       }}
       className="gap-2 p-2"
     >
@@ -29,7 +29,7 @@ const MainLayout = ({
           handleSearch={(data: string) => handleSearch(data)}
         />
       </GridItem>
-      <Show above="lg">
+      <Show above="md">
         <GridItem area="aside">
           <SideBar handleClick={(slug: string) => handleClick(slug)} />
         </GridItem>
