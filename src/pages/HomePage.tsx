@@ -4,10 +4,10 @@ import GameCard from "../components/GameCard";
 import { useNavigate } from "react-router-dom";
 import { Spinner } from "@chakra-ui/react";
 import PlatformDropdown from "../components/PlatformDropdown";
-import { Game, Platform } from "../types/apiTypes";
+import { Platform } from "../types/apiTypes";
 import { AxiosError, CanceledError } from "../services/api-client";
-import gameService from "../services/game-service";
 import platformService from "../services/platform-service";
+import useGames from "../hooks/useGames";
 
 //Layout
 // ToDo clean up other calls
@@ -23,53 +23,36 @@ import platformService from "../services/platform-service";
 // * ToDo Pagination */
 
 const HomePage = () => {
-  const [games, setGames] = useState<Game[]>([]);
-  const [selectedGenre, setSelectedGenre] = useState<string | undefined>();
-  const [searchGameName, setSearchGameName] = useState<string>("");
   const [platforms, setPlatforms] = useState<Platform[]>([]); // NB: parent_platforms (not platforms)
-  const [selectedPlatform, setSelectedPlatform] = useState<
-    string | undefined
-  >();
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const {
+    games,
+    searchGameName,
+    // selectedGenre,
+    // selectedPlatform,
+    isLoading,
+    error,
+    setSearchGameName,
+    setSelectedGenre,
+    setSelectedPlatform,
+  } = useGames();
 
   useEffect(() => {
-    setIsLoading(true);
-    const { request, cancel } = gameService.getAllGames({
-      searchGameName,
-      selectedGenre,
-      selectedPlatform,
-    });
+    const { request, cancel } = platformService.getAllPlatforms();
     request
-      .then((res) => {
-        setGames(res.data.results);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        if (err instanceof CanceledError) return;
-        setError((err as AxiosError).message);
-        console.error("Error fetching games", err);
-        setIsLoading(false);
-      });
-
-    const { platformRequest, platformCancel } =
-      platformService.getAllPlatforms();
-    platformRequest
       .then((res: any) => {
         setPlatforms(res.data.results);
-        setIsLoading(false);
+        // setIsLoading(false);
       })
       .catch((err: AxiosError) => {
         if (err instanceof CanceledError) return;
         console.error("Error fetching platforms", err);
-        setIsLoading(false);
+        // setIsLoading(false);
       });
 
     return () => {
       cancel();
-      platformCancel();
     };
-  }, [selectedGenre, searchGameName, selectedPlatform]);
+  }, []);
 
   const navigate = useNavigate();
 
