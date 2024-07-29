@@ -17,9 +17,14 @@ Props) => {
     <div className="flex flex-col gap-2">
       {genres?.map((genre) => (
         // ToDo redux for this
-        <Button onClick={() => handleClick(genre.slug)} key={genre.id}>
+        <button
+          className="flex gap-2 pr-0 hover:text-gray-500"
+          onClick={() => handleClick(genre.slug)}
+          key={genre.id}
+        >
+          <img width="50" height="50" src={genre.image_background} />
           {genre.name}
-        </Button>
+        </button>
       ))}
     </div>
   );
