@@ -13,5 +13,6 @@ export type Game = {
   slug: string;
   name: string;
   background_image: string;
-  parent_platforms: any;
+  parent_platforms: any; // ToDo
+  metacritic: number;
 };

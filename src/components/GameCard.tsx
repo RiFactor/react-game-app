@@ -1,5 +1,11 @@
-import { MdComputer } from "react-icons/md";
-import { FaPlaystation, FaXbox } from "react-icons/fa";
+import { MdComputer, MdMiscellaneousServices } from "react-icons/md";
+import {
+  FaApple,
+  FaInternetExplorer,
+  FaLinux,
+  FaPlaystation,
+  FaXbox,
+} from "react-icons/fa";
 import {
   Heading,
   Stack,
@@ -9,6 +15,11 @@ import {
   Center,
 } from "@chakra-ui/react";
 import { Game } from "../types/apiTypes";
+import Badge from "./Badge";
+import { IoLogoAndroid } from "react-icons/io";
+import { BsNintendoSwitch } from "react-icons/bs";
+import { SiAtari, SiCommodore, SiSega } from "react-icons/si";
+import { RiAppleLine } from "react-icons/ri";
 
 // ToDo
 // Classname "box" on  Card won't remove padding
@@ -37,22 +48,43 @@ const GameCard = ({ game, onClick }: Props) => {
             <Heading>{game.name}</Heading>
           </Center>
 
-          <div className="flex gap-2 overflow-clip">
-            {game.parent_platforms?.map(({ platform }: any) => {
-              return (
-                <p key={platform.id}>
-                  {platform?.name === "PC" ? (
-                    <MdComputer />
-                  ) : platform?.name === "PlayStation" ? (
-                    <FaPlaystation />
-                  ) : platform?.name === "Xbox" ? (
-                    <FaXbox />
-                  ) : (
-                    `platforms: ${platform.name}`
-                  )}
-                </p>
-              );
-            })}
+          <div className="flex justify-between items-center">
+            <div className="flex gap-2 overflow-clip">
+              {game.parent_platforms?.map(({ platform }: any) => {
+                return (
+                  <p key={platform.id}>
+                    {platform?.name === "PC" ? (
+                      <MdComputer />
+                    ) : platform?.name === "PlayStation" ? (
+                      <FaPlaystation />
+                    ) : platform?.name === "Apple Macintosh" ? (
+                      <FaApple />
+                    ) : platform?.name === "Web" ? (
+                      <FaInternetExplorer />
+                    ) : platform?.name === "Linux" ? (
+                      <FaLinux />
+                    ) : platform?.name === "Android" ? (
+                      <IoLogoAndroid />
+                    ) : platform?.name === "Nintendo" ? (
+                      <BsNintendoSwitch />
+                    ) : platform?.name === "Atari" ? (
+                      <SiAtari />
+                    ) : platform?.name === "SEGA" ? (
+                      <SiSega />
+                    ) : platform?.name === "iOS" ? (
+                      <RiAppleLine />
+                    ) : platform?.name === "Commodore / Amiga" ? (
+                      <SiCommodore />
+                    ) : platform?.name === "Xbox" ? (
+                      <FaXbox />
+                    ) : (
+                      <div className="flex">{platform.name}</div>
+                    )}
+                  </p>
+                );
+              })}
+            </div>
+            <Badge score={game.metacritic}></Badge>
           </div>
         </Stack>
       </CardBody>
