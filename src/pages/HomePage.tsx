@@ -60,7 +60,7 @@ const HomePage = () => {
     >
       <div className="flex flex-col gap-2">
         {error && <p className="text-red-500">{error}</p>}
-        <h1 className="flex font-bold">Games</h1>
+        <h1 className="flex font-bold text-5xl">Games</h1>
         <PlatformDropdown
           setSelectedPlatform={(platform: string | undefined) => {
             setSelectedPlatform(
@@ -72,6 +72,7 @@ const HomePage = () => {
           platforms={platforms}
         />
 
+        {/* ToDo sort title shifting when loading */}
         {isLoading ? (
           <Spinner />
         ) : (

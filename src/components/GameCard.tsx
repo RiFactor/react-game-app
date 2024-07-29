@@ -45,7 +45,8 @@ const GameCard = ({ game, onClick }: Props) => {
         <Image src={game.background_image} alt="background_game_image"></Image>
         <Stack>
           <Center>
-            <Heading>{game.name}</Heading>
+            {/* Adjust game name size */}
+            <Heading className="text-md">{game.name}</Heading>
           </Center>
 
           <div className="flex justify-between items-center">

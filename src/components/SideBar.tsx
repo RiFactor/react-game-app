@@ -1,5 +1,4 @@
 import useGenres from "../hooks/useGenres";
-import Button from "./Button";
 
 interface Props {
   handleClick: (slug: string) => void;
@@ -18,10 +17,11 @@ Props) => {
       {genres?.map((genre) => (
         // ToDo redux for this
         <button
-          className="flex gap-2 pr-0 hover:text-gray-500"
+          className="flex gap-2 pr-0 hover:text-gray-500 items-center"
           onClick={() => handleClick(genre.slug)}
           key={genre.id}
         >
+          {/* ToDoclip the height of the arcade image */}
           <img width="50" height="50" src={genre.image_background} />
           {genre.name}
         </button>
