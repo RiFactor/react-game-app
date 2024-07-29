@@ -2,9 +2,9 @@ import MainLayout from "../components/MainLayout";
 import GameCard from "../components/GameCard";
 import { useNavigate } from "react-router-dom";
 import { Spinner } from "@chakra-ui/react";
-import PlatformDropdown from "../components/PlatformDropdown";
 import useGames from "../hooks/useGames";
 import usePlatforms from "../hooks/usePlatforms";
+import Dropdown from "../components/Dropdown";
 
 //Layout
 // ToDo clean up other calls
@@ -30,6 +30,7 @@ const HomePage = () => {
     setSearchGameName,
     setSelectedGenre,
     setSelectedPlatform,
+    setOrdering,
   } = useGames();
 
   const { platforms } = usePlatforms();
@@ -39,6 +40,24 @@ const HomePage = () => {
   const handleSelectGame = (gameId: string) => {
     navigate(`/${gameId}`);
   };
+
+  const orderingOptions = [
+    // Add keys
+    { id: "name", name: "name" },
+    { id: "released", name: "released" },
+    { id: "added", name: "added" },
+    { id: "created", name: "created" },
+    { id: "updated", name: "updated" },
+    { id: "rating", name: "rating" },
+    { id: "metacritic", name: "metacritic" },
+    { id: "-name", name: "name desc" },
+    { id: "-released", name: "released desc" },
+    { id: "-added", name: "added desc" },
+    { id: "-created", name: "created desc" },
+    { id: "-updated", name: "updated desc" },
+    { id: "-rating", name: "rating desc" },
+    { id: "-metacritic", name: "metacritic desc" },
+  ];
 
   // const handleResetFilters = () => {
   //   // ToDo is this neater to reset everything or will the order matter
@@ -61,16 +80,30 @@ const HomePage = () => {
       <div className="flex flex-col gap-2">
         {error && <p className="text-red-500">{error}</p>}
         <h1 className="flex font-bold text-5xl">Games</h1>
-        <PlatformDropdown
-          setSelectedPlatform={(platform: string | undefined) => {
-            setSelectedPlatform(
-              platform !== "" ? platform : undefined // can't pass undefined as a value
-            );
-            setSearchGameName("");
-            setSelectedGenre(undefined);
-          }}
-          platforms={platforms}
-        />
+        <div className="flex gap-2">
+          <Dropdown
+            setSelectedValue={(platform: string | undefined) => {
+              setSelectedPlatform(platform !== "" ? platform : undefined); // can't pass undefined as a value
+              setOrdering(undefined);
+              setSearchGameName("");
+              setSelectedGenre(undefined);
+            }}
+            defaultOption="Select Platform..."
+            options={platforms}
+          ></Dropdown>
+          <Dropdown
+            setSelectedValue={(ordering: string | undefined) => {
+              setOrdering(ordering !== "" ? ordering : undefined);
+              // ToDo keep selected platform or reset?
+              setSearchGameName("");
+              // ToDo fix resettting dropdown filter errors
+              setSelectedGenre(undefined);
+              setSelectedPlatform(undefined);
+            }}
+            defaultOption="Order by: ..."
+            options={orderingOptions}
+          />
+        </div>
 
         {/* ToDo sort title shifting when loading */}
         {isLoading ? (

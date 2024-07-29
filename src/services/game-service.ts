@@ -4,10 +4,16 @@ interface IProps {
   selectedGenre: string | undefined;
   searchGameName: string | undefined;
   selectedPlatform: string | undefined;
+  ordering: string | undefined;
 }
 
 class GameService {
-  getAllGames<T>({ searchGameName, selectedGenre, selectedPlatform }: IProps) {
+  getAllGames<T>({
+    searchGameName,
+    selectedGenre,
+    selectedPlatform,
+    ordering,
+  }: IProps) {
     const controller = new AbortController();
 
     const request = apiClient.get<T>("/games", {
@@ -16,6 +22,7 @@ class GameService {
         genres: selectedGenre,
         search: searchGameName,
         parent_platforms: selectedPlatform, // id can be string or number?
+        ordering: ordering,
       },
     });
     return { request, cancel: () => controller.abort() };

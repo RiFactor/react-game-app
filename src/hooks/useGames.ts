@@ -15,6 +15,7 @@ const useGames = () => {
   const [selectedPlatform, setSelectedPlatform] = useState<
     string | undefined
   >();
+  const [ordering, setOrdering] = useState<string | undefined>("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -25,12 +26,14 @@ const useGames = () => {
       searchGameName,
       selectedGenre,
       selectedPlatform,
+      ordering,
     });
 
     request
-      .then(({ data: { results } }) => {
-        setGames(results);
+      .then((res) => {
+        setGames(res.data.results);
         setIsLoading(false);
+        console.log(ordering, "order");
       })
       .catch((err) => {
         if (err instanceof CanceledError) return;
@@ -42,7 +45,7 @@ const useGames = () => {
     return () => {
       cancel();
     };
-  }, [selectedGenre, searchGameName, selectedPlatform]);
+  }, [selectedGenre, searchGameName, selectedPlatform, ordering]);
 
   return {
     games,
@@ -54,6 +57,7 @@ const useGames = () => {
     setSearchGameName,
     setSelectedGenre,
     setSelectedPlatform,
+    setOrdering,
   };
 };
 
