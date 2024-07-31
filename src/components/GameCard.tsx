@@ -1,4 +1,4 @@
-import { MdComputer, MdMiscellaneousServices } from "react-icons/md";
+import { MdComputer } from "react-icons/md";
 import {
   FaApple,
   FaInternetExplorer,
@@ -35,24 +35,30 @@ const GameCard = ({ game, onClick }: Props) => {
   return (
     <Card
       onClick={onClick}
+      borderRadius={10}
+      overflow="hidden"
       maxW="sm"
       px={0}
       pl="0"
       className="box cursor-pointer !p-0 rounded"
       // rounded="md"
     >
+      <Image src={game.background_image} alt="background_game_image"></Image>
       <CardBody>
-        <Image src={game.background_image} alt="background_game_image"></Image>
         <Stack>
           <Center>
             {/* Adjust game name size */}
-            <Heading className="text-md">{game.name}</Heading>
+            <Heading fontSize="2xl" className="text-md">
+              {game.name}
+            </Heading>
           </Center>
 
           <div className="flex justify-between items-center">
             <div className="flex gap-2 overflow-clip">
               {game.parent_platforms?.map(({ platform }: any) => {
                 return (
+                  // ToDo build map object https://www.w3schools.com/js/js_maps.asp
+                  // (https://blog.logrocket.com/refactoring-cascading-conditionals-favor-readability/)
                   <p key={platform.id}>
                     {platform?.name === "PC" ? (
                       <MdComputer />

@@ -1,7 +1,7 @@
 import MainLayout from "../components/MainLayout";
 import GameCard from "../components/GameCard";
 import { useNavigate } from "react-router-dom";
-import { Spinner } from "@chakra-ui/react";
+import { SimpleGrid, Spinner } from "@chakra-ui/react";
 import useGames from "../hooks/useGames";
 import usePlatforms from "../hooks/usePlatforms";
 import Dropdown from "../components/Dropdown";
@@ -112,7 +112,11 @@ const HomePage = () => {
           // {games === undefined || games.length === 0 ? (
           //   <p className="font-bold">No Games Found</p>
           // ) : (
-          <div className="flex flex-wrap gap-5">
+          <SimpleGrid
+            columns={{ sm: 1, md: 2, lg: 3, xl: 5 }}
+            spacing={10}
+            padding="0.5rem"
+          >
             {games?.map((game) => {
               return (
                 <GameCard
@@ -122,7 +126,7 @@ const HomePage = () => {
                 />
               );
             })}
-          </div>
+          </SimpleGrid>
         )}
       </div>
     </MainLayout>
