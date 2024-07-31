@@ -116,15 +116,14 @@ const HomePage = () => {
         >
           {isLoading &&
             skeletons.map((s) => (
-              <GameCardContainer>
-                <GameCardSkeleton key={s} />
+              <GameCardContainer key={s}>
+                <GameCardSkeleton />
               </GameCardContainer>
             ))}
           {games?.map((game) => {
             return (
-              <GameCardContainer>
+              <GameCardContainer key={game.id}>
                 <GameCard
-                  key={game.id}
                   game={game}
                   onClick={() => handleSelectGame(game.slug)}
                 />
