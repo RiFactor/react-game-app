@@ -35,6 +35,7 @@ const MainLayout = ({
         </GridItem>
       </Show>
       <GridItem className="p-2" area="main">
+        {/* Should be game grid here */}
         {children}
       </GridItem>
     </Grid>

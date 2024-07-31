@@ -8,6 +8,7 @@ const SideBar = ({
   handleClick,
 }: //remember to destructure w/ {braces}
 Props) => {
+  // ToDO Loading
   const { genres } = useGenres();
 
   if (genres.length === 0) return null; // If optionally mapping is this needed
