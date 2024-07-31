@@ -33,7 +33,6 @@ const useGames = () => {
       .then((res) => {
         setGames(res.data.results);
         setIsLoading(false);
-        console.log(ordering, "order");
       })
       .catch((err) => {
         // ToDo hook?

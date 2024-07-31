@@ -44,7 +44,13 @@ const PlatformIconList = ({ platforms }: Props) => {
         (
           platform // before refactoring, had to destructure because of BED code smell
         ) => {
-          return <Icon as={iconMap[platform.slug]} color="gray.500"></Icon>;
+          return (
+            <Icon
+              key={platform.id}
+              as={iconMap[platform.slug]}
+              color="gray.500"
+            ></Icon>
+          );
         }
       )}
     </HStack>

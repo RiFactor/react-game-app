@@ -19,7 +19,6 @@ const useGenres = () => {
       .get("/genres", { signal: controller.signal })
       .then(({ data: { results } }) => {
         setGenres(results);
-        console.log(results, "genres");
       })
       .catch((err) => {
         if (err instanceof CanceledError) return;
