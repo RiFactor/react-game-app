@@ -1,7 +1,7 @@
 export type Platform = {
   id: number;
   name: string;
-  // slug: string;
+  slug: string;
 };
 
 export type PlatformObject = {
@@ -13,6 +13,6 @@ export type Game = {
   slug: string;
   name: string;
   background_image: string;
-  parent_platforms: any; // ToDo
+  parent_platforms: { platform: Platform }[]; // ToDo
   metacritic: number;
 };

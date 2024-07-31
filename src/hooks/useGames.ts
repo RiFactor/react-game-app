@@ -36,6 +36,7 @@ const useGames = () => {
         console.log(ordering, "order");
       })
       .catch((err) => {
+        // ToDo hook?
         if (err instanceof CanceledError) return;
         setError((err as AxiosError).message);
         console.error("Error fetching games", err);
