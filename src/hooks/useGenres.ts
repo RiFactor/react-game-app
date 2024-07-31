@@ -8,6 +8,11 @@ type Genre = {
   image_background: string;
 };
 
+interface IFetchGenresResponse {
+  count: number;
+  results: Genre[];
+}
+
 const useGenres = () => {
   const [genres, setGenres] = useState<Genre[]>([]);
   // error
@@ -16,7 +21,7 @@ const useGenres = () => {
     const controller = new AbortController();
 
     apiClient
-      .get("/genres", { signal: controller.signal })
+      .get<IFetchGenresResponse>("/genres", { signal: controller.signal })
       .then(({ data: { results } }) => {
         setGenres(results);
       })

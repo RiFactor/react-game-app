@@ -30,8 +30,8 @@ const useGames = () => {
     });
 
     request
-      .then((res) => {
-        setGames(res.data.results);
+      .then(({ data: { results } }) => {
+        setGames(results);
         setIsLoading(false);
       })
       .catch((err) => {
