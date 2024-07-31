@@ -11,6 +11,7 @@ import { Game } from "../types/apiTypes";
 import Badge from "./CriticScore";
 import PlatformIconList from "./PlatformIconList";
 import CriticScore from "./CriticScore";
+import getCroppedImageUrl from "../services/imageUrl";
 
 // ToDo
 // Classname "box" on  Card won't remove padding
@@ -34,7 +35,10 @@ const GameCard = ({ game, onClick }: Props) => {
       className="box cursor-pointer !p-0 rounded"
       // rounded="md"
     >
-      <Image src={game.background_image} alt="background_game_image"></Image>
+      <Image
+        src={getCroppedImageUrl(game.background_image)}
+        alt="background_game_image"
+      ></Image>
       <CardBody>
         <Stack>
           <Center>
