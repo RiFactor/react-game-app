@@ -8,7 +8,6 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import { Game } from "../types/apiTypes";
-import Badge from "./CriticScore";
 import PlatformIconList from "./PlatformIconList";
 import CriticScore from "./CriticScore";
 import getCroppedImageUrl from "../services/imageUrl";
@@ -27,8 +26,6 @@ const GameCard = ({ game, onClick }: Props) => {
   return (
     <Card
       onClick={onClick}
-      borderRadius={10}
-      overflow="hidden"
       maxW="sm"
       px={0}
       pl="0"

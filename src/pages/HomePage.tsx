@@ -1,10 +1,12 @@
 import MainLayout from "../components/MainLayout";
 import GameCard from "../components/GameCard";
 import { useNavigate } from "react-router-dom";
-import { SimpleGrid, Spinner } from "@chakra-ui/react";
+import { SimpleGrid, Skeleton, Spinner } from "@chakra-ui/react";
 import useGames from "../hooks/useGames";
 import usePlatforms from "../hooks/usePlatforms";
 import Dropdown from "../components/Dropdown";
+import GameCardSkeleton from "../components/GameCardSkeleton";
+import GameCardContainer from "../components/GameCardContainer";
 
 //Layout
 // ToDo clean up other calls
@@ -40,6 +42,8 @@ const HomePage = () => {
   const handleSelectGame = (gameId: string) => {
     navigate(`/${gameId}`);
   };
+
+  const skeletons = [1, 2, 3, 4, 5, 6]; // arbitrary value
 
   const orderingOptions = [
     // Add keys
@@ -105,29 +109,29 @@ const HomePage = () => {
           />
         </div>
 
-        {/* ToDo sort title shifting when loading */}
-        {isLoading ? (
-          <Spinner />
-        ) : (
-          // {games === undefined || games.length === 0 ? (
-          //   <p className="font-bold">No Games Found</p>
-          // ) : (
-          <SimpleGrid
-            columns={{ sm: 1, md: 2, lg: 3, xl: 5 }}
-            spacing={10}
-            padding="0.5rem"
-          >
-            {games?.map((game) => {
-              return (
+        <SimpleGrid
+          columns={{ sm: 1, md: 2, lg: 3, xl: 5 }}
+          spacing={10}
+          padding="0.5rem"
+        >
+          {isLoading &&
+            skeletons.map((s) => (
+              <GameCardContainer>
+                <GameCardSkeleton key={s} />
+              </GameCardContainer>
+            ))}
+          {games?.map((game) => {
+            return (
+              <GameCardContainer>
                 <GameCard
                   key={game.id}
                   game={game}
                   onClick={() => handleSelectGame(game.slug)}
                 />
-              );
-            })}
-          </SimpleGrid>
-        )}
+              </GameCardContainer>
+            );
+          })}
+        </SimpleGrid>
       </div>
     </MainLayout>
   );
