@@ -13,6 +13,6 @@ export type Game = {
   slug: string;
   name: string;
   background_image: string;
-  parent_platforms: { platform: Platform }[]; // ToDo
+  parent_platforms: { platform: Platform }[];
   metacritic: number;
 };

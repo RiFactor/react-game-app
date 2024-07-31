@@ -5,10 +5,12 @@ import {
   Card,
   CardBody,
   Center,
+  HStack,
 } from "@chakra-ui/react";
 import { Game } from "../types/apiTypes";
-import Badge from "./Badge";
+import Badge from "./CriticScore";
 import PlatformIconList from "./PlatformIconList";
+import CriticScore from "./CriticScore";
 
 // ToDo
 // Classname "box" on  Card won't remove padding
@@ -41,18 +43,15 @@ const GameCard = ({ game, onClick }: Props) => {
               {game.name}
             </Heading>
           </Center>
-
-          <div className="flex justify-between items-center">
-            <div className="flex gap-2 overflow-clip">
-              <PlatformIconList
-                platforms={game.parent_platforms.map(
-                  (p) => p.platform
-                  // mapping because of BED code smell
-                )}
-              />
-            </div>
-            <Badge score={game.metacritic}></Badge>
-          </div>
+          <HStack justifyContent="space-between">
+            <PlatformIconList
+              platforms={game.parent_platforms.map(
+                (p) => p.platform
+                // mapping because of BED code smell
+              )}
+            />
+            <CriticScore score={game.metacritic}></CriticScore>
+          </HStack>
         </Stack>
       </CardBody>
     </Card>
