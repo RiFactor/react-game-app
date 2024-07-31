@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import apiClient, { CanceledError } from "../services/api-client";
+import useData from "./useData";
 
 type Genre = {
   id: string;
@@ -8,32 +7,6 @@ type Genre = {
   image_background: string;
 };
 
-interface IFetchGenresResponse {
-  count: number;
-  results: Genre[];
-}
-
-const useGenres = () => {
-  const [genres, setGenres] = useState<Genre[]>([]);
-  // error
-
-  useEffect(() => {
-    const controller = new AbortController();
-
-    apiClient
-      .get<IFetchGenresResponse>("/genres", { signal: controller.signal })
-      .then(({ data: { results } }) => {
-        setGenres(results);
-      })
-      .catch((err) => {
-        if (err instanceof CanceledError) return;
-        console.error("Error fetching Genre", err);
-      });
-
-    return () => controller.abort();
-  }, []);
-
-  return { genres };
-};
+const useGenres = () => useData<Genre>("/genres");
 
 export default useGenres;

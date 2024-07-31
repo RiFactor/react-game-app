@@ -9,13 +9,13 @@ const SideBar = ({
 }: //remember to destructure w/ {braces}
 Props) => {
   // ToDO Loading
-  const { genres } = useGenres();
+  const { data } = useGenres();
 
-  if (genres.length === 0) return null; // If optionally mapping is this needed
+  if (data.length === 0) return null; // If optionally mapping is this needed
 
   return (
     <div className="flex flex-col gap-2">
-      {genres?.map((genre) => (
+      {data?.map((genre) => (
         // ToDo redux for this
         <button
           className="flex gap-2 pr-0 hover:text-gray-500 items-center"
