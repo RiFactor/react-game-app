@@ -20,6 +20,7 @@ import GameCardContainer from "../components/GameCardContainer";
 // user-friendly error messages
 /* dropdown for order by: */
 // * ToDo Pagination */
+export const skeletons = [1, 2, 3, 4, 5, 6]; // arbitrary value
 
 const HomePage = () => {
   const {
@@ -42,8 +43,6 @@ const HomePage = () => {
   const handleSelectGame = (gameId: string) => {
     navigate(`/${gameId}`);
   };
-
-  const skeletons = [1, 2, 3, 4, 5, 6]; // arbitrary value
 
   const orderingOptions = [
     // Add keys
