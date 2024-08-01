@@ -1,5 +1,5 @@
 import { Grid, GridItem, Show } from "@chakra-ui/react";
-import SideBar from "./SideBar";
+import GenreList from "./GenreList";
 import NavBar from "./NavBar";
 
 interface Props {
@@ -21,6 +21,10 @@ const MainLayout = ({
         base: `"nav" "main"`,
         md: `"nav nav" "aside main"`,
       }}
+      templateColumns={{
+        base: "1fr",
+        lg: "200px 1fr",
+      }}
       className="gap-2 p-2"
     >
       <GridItem area="nav">
@@ -30,8 +34,8 @@ const MainLayout = ({
         />
       </GridItem>
       <Show above="md">
-        <GridItem area="aside">
-          <SideBar handleClick={(slug: string) => handleClick(slug)} />
+        <GridItem area="aside" paddingX={5}>
+          <GenreList handleClick={(slug: string) => handleClick(slug)} />
         </GridItem>
       </Show>
       <GridItem className="p-2" area="main">
