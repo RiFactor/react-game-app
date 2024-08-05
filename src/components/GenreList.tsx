@@ -1,4 +1,4 @@
-import { HStack, List, ListItem, Image, Text } from "@chakra-ui/react";
+import { HStack, List, ListItem, Image, Text, Button } from "@chakra-ui/react";
 import useGenres from "../hooks/useGenres";
 import { skeletons } from "../pages/HomePage";
 import GenreListSkeleton from "./GenreListSkeleton";
@@ -16,6 +16,7 @@ Props) => {
 
   if (data.length === 0) return null; // If optionally mapping is this needed
 
+  // ToDo - isLoading status not working for genres but working for games
   // if (!isLoading) return <Spinner />; // ToDo spinner only displaying here, not when loading
   // if (isLoading) return <Spinner />;
 
@@ -26,17 +27,21 @@ Props) => {
         return (
           // ToDo redux for this
           <ListItem key={genre.id} paddingY="5px">
-            <button onClick={() => handleClick(genre.slug)}>
-              <HStack>
-                <Image
-                  boxSize="32px"
-                  src={getCroppedImageUrl(genre.image_background)}
-                  borderRadius={8}
-                />
-                <Text fontSize="lg">{genre.name}</Text>
-              </HStack>
-              {/* ToDoclip the height of the arcade image */}
-            </button>
+            <HStack>
+              <Image
+                boxSize="32px"
+                src={getCroppedImageUrl(genre.image_background)}
+                borderRadius={8}
+              />
+              <Button
+                onClick={() => handleClick(genre.slug)}
+                variant="link"
+                fontSize="lg"
+              >
+                {genre.name}
+              </Button>
+            </HStack>
+            {/* ToDoclip the height of the arcade image */}
           </ListItem>
         );
       })}
