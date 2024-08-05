@@ -5,8 +5,8 @@ import getCroppedImageUrl from "../services/imageUrl";
 import { skeletons } from "./MainLayout";
 
 interface Props {
-  handleClick: (slug: string) => void;
-  selectedGenre: string | undefined;
+  handleClick: (genre: Genre) => void;
+  selectedGenre: Genre | null;
 }
 
 const GenreList = ({
@@ -36,13 +36,11 @@ Props) => {
                 borderRadius={8}
               />
               <Button
-                onClick={() => handleClick(genre.slug)}
+                onClick={() => handleClick(genre)}
                 variant="link"
                 fontSize="lg"
                 className={
-                  // ToDo fix error (ternary ok)
-                  selectedGenre === genre.name.toLowerCase() &&
-                  "opacity-50 underline"
+                  selectedGenre === genre ? "opacity-50 underline" : ""
                 }
               >
                 {genre.name}

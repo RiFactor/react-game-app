@@ -8,6 +8,7 @@ import GameCardSkeleton from "./GameCardSkeleton";
 import GameCard from "./GameCard";
 import usePlatforms from "../hooks/usePlatforms";
 import { useNavigate } from "react-router-dom";
+import { Genre } from "../hooks/useGenres";
 
 //Layout
 // ToDo clean up other calls
@@ -39,15 +40,15 @@ const MainLayout = () => {
   } = useGames();
 
   const handleSearch = (data: string) => {
-    setSelectedGenre(undefined);
+    setSelectedGenre(null);
     setSelectedPlatform(undefined);
     setSearchGameName(data);
   };
 
-  const handleClick = (slug: string) => {
+  const handleClick = (genre: Genre) => {
     setSearchGameName(""); // ToDo clear search bar text
     setSelectedPlatform(undefined);
-    setSelectedGenre(slug);
+    setSelectedGenre(genre);
   };
 
   // const handleResetFilters = () => {
@@ -102,7 +103,7 @@ const MainLayout = () => {
         <GridItem area="aside" paddingX={5}>
           <GenreList
             selectedGenre={selectedGenre}
-            handleClick={(slug: string) => handleClick(slug)}
+            handleClick={(genre: Genre) => handleClick(genre)}
           />
         </GridItem>
       </Show>
@@ -117,7 +118,7 @@ const MainLayout = () => {
                 setSelectedPlatform(platform !== "" ? platform : undefined); // can't pass undefined as a value
                 setOrdering(undefined);
                 setSearchGameName("");
-                setSelectedGenre(undefined);
+                setSelectedGenre(null);
               }}
               defaultOption="Select Platform..."
               options={platforms}
@@ -128,7 +129,7 @@ const MainLayout = () => {
                 // ToDo keep selected platform or reset?
                 setSearchGameName("");
                 // ToDo fix resettting dropdown filter errors
-                setSelectedGenre(undefined);
+                setSelectedGenre(null);
                 setSelectedPlatform(undefined);
               }}
               defaultOption="Order by: ..."

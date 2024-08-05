@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Game } from "../types/apiTypes";
 import gameService from "../services/game-service";
 import { AxiosError, CanceledError } from "axios";
+import { Genre } from "./useGenres";
 
 interface IFetchGamesResponse {
   count: number;
@@ -11,7 +12,7 @@ interface IFetchGamesResponse {
 const useGames = () => {
   const [games, setGames] = useState<Game[]>([]);
   const [searchGameName, setSearchGameName] = useState<string>("");
-  const [selectedGenre, setSelectedGenre] = useState<string | undefined>();
+  const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
   const [selectedPlatform, setSelectedPlatform] = useState<
     string | undefined
   >();

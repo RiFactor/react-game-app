@@ -1,7 +1,8 @@
+import { Genre } from "../hooks/useGenres";
 import apiClient from "./api-client";
 
 interface IProps {
-  selectedGenre: string | undefined;
+  selectedGenre: Genre | null;
   searchGameName: string | undefined;
   selectedPlatform: string | undefined;
   ordering: string | undefined;
