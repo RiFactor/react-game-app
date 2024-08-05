@@ -1,8 +1,8 @@
 import { HStack, List, ListItem, Image, Text, Button } from "@chakra-ui/react";
 import useGenres from "../hooks/useGenres";
-import { skeletons } from "../pages/HomePage";
 import GenreListSkeleton from "./GenreListSkeleton";
 import getCroppedImageUrl from "../services/imageUrl";
+import { skeletons } from "./MainLayout";
 
 interface Props {
   handleClick: (slug: string) => void;
