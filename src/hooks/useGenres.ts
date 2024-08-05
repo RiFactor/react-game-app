@@ -1,6 +1,6 @@
 import useData from "./useData";
 
-type Genre = {
+export type Genre = {
   id: string;
   name: string;
   slug: string;

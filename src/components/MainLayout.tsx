@@ -28,7 +28,7 @@ const MainLayout = () => {
   const {
     games,
     searchGameName,
-    // selectedGenre,
+    selectedGenre,
     // selectedPlatform,
     isLoading,
     error,
@@ -100,7 +100,10 @@ const MainLayout = () => {
       </GridItem>
       <Show above="md">
         <GridItem area="aside" paddingX={5}>
-          <GenreList handleClick={(slug: string) => handleClick(slug)} />
+          <GenreList
+            selectedGenre={selectedGenre}
+            handleClick={(slug: string) => handleClick(slug)}
+          />
         </GridItem>
       </Show>
       <GridItem className="p-2" area="main">
