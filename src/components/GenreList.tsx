@@ -2,7 +2,7 @@ import { HStack, List, ListItem, Image, Button } from "@chakra-ui/react";
 import useGenres, { Genre } from "../hooks/useGenres";
 import GenreListSkeleton from "./GenreListSkeleton";
 import getCroppedImageUrl from "../services/imageUrl";
-import { skeletons } from "./MainLayout";
+import { skeletons } from "./GameGrid";
 
 interface Props {
   selectGenre: (genre: Genre) => void;
