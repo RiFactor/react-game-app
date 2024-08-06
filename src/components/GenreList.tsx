@@ -1,4 +1,4 @@
-import { HStack, List, ListItem, Image, Text, Button } from "@chakra-ui/react";
+import { HStack, List, ListItem, Image, Button } from "@chakra-ui/react";
 import useGenres, { Genre } from "../hooks/useGenres";
 import GenreListSkeleton from "./GenreListSkeleton";
 import getCroppedImageUrl from "../services/imageUrl";
@@ -38,9 +38,7 @@ Props) => {
                 onClick={() => selectGenre(genre)}
                 variant="link"
                 fontSize="lg"
-                className={
-                  selectedGenre === genre ? "opacity-50 underline" : ""
-                }
+                fontWeight={selectedGenre?.id === genre.id ? "bold" : "normal"}
               >
                 {genre.name}
               </Button>
