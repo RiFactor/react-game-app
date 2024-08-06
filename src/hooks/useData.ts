@@ -10,7 +10,7 @@ interface IFetchResponse<T> {
 const useData = <T>(
   endpoint: string,
   requestConfig?: AxiosRequestConfig,
-  deps?: any
+  deps?: any[]
 ) => {
   const [data, setData] = useState<T[]>([]);
   const [isLoading, setIsLoading] = useState(false);

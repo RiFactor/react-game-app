@@ -26,7 +26,8 @@ const useGames = (
         ordering,
       },
     },
-    [selectedGenre, searchGameName, selectedPlatform, ordering]
+    // rather than 'selectedGenre'
+    [selectedGenre?.id, searchGameName, selectedPlatform, ordering]
   );
 
 // return {
