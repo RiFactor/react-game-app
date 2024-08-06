@@ -29,7 +29,6 @@ const useData = <T>(
         .then(({ data: { results } }) => {
           setData(results);
           setIsLoading(false);
-          console.log(results, "results");
         })
         .catch((err) => {
           if (err instanceof CanceledError) return;

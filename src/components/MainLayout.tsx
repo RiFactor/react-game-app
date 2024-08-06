@@ -28,7 +28,6 @@ const MainLayout = () => {
     string | undefined
   >();
   const [ordering, setOrdering] = useState<string | undefined>("");
-  console.log(selectedGenre, "sg");
   const { data, isLoading, error } = useGames(
     searchGameName,
     selectedGenre,
