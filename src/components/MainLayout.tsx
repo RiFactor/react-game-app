@@ -9,6 +9,7 @@ import GameCard from "./GameCard";
 import usePlatforms from "../hooks/usePlatforms";
 import { useNavigate } from "react-router-dom";
 import { Genre } from "../hooks/useGenres";
+import { useState } from "react";
 
 //Layout
 // ToDo clean up other calls
@@ -26,18 +27,22 @@ import { Genre } from "../hooks/useGenres";
 export const skeletons = [1, 2, 3, 4, 5, 6]; // arbitrary value
 
 const MainLayout = () => {
+  const [searchGameName, setSearchGameName] = useState<string>("");
+  const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
+  const [selectedPlatform, setSelectedPlatform] = useState<
+    string | undefined
+  >();
+  const [ordering, setOrdering] = useState<string | undefined>("");
+  console.log(selectedGenre, "sg");
   const {
-    games,
-    searchGameName,
-    selectedGenre,
-    // selectedPlatform,
+    data,
     isLoading,
     error,
-    setSearchGameName,
-    setSelectedGenre,
-    setSelectedPlatform,
-    setOrdering,
-  } = useGames();
+    // setSearchGameName,
+    // setSelectedGenre,
+    // setSelectedPlatform,
+    // setOrdering,
+  } = useGames(searchGameName, selectedGenre, selectedPlatform, ordering);
 
   const handleSearch = (data: string) => {
     setSelectedGenre(null);
@@ -45,7 +50,7 @@ const MainLayout = () => {
     setSearchGameName(data);
   };
 
-  const handleClick = (genre: Genre) => {
+  const handleSelectGenre = (genre: Genre) => {
     setSearchGameName(""); // ToDo clear search bar text
     setSelectedPlatform(undefined);
     setSelectedGenre(genre);
@@ -103,7 +108,7 @@ const MainLayout = () => {
         <GridItem area="aside" paddingX={5}>
           <GenreList
             selectedGenre={selectedGenre}
-            handleClick={(genre: Genre) => handleClick(genre)}
+            selectGenre={(genre: Genre) => handleSelectGenre(genre)}
           />
         </GridItem>
       </Show>
@@ -148,7 +153,7 @@ const MainLayout = () => {
                   <GameCardSkeleton />
                 </GameCardContainer>
               ))}
-            {games?.map((game) => {
+            {data?.map((game) => {
               return (
                 <GameCardContainer key={game.id}>
                   <GameCard

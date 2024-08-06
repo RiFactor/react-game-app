@@ -5,23 +5,22 @@ import getCroppedImageUrl from "../services/imageUrl";
 import { skeletons } from "./MainLayout";
 
 interface Props {
-  handleClick: (genre: Genre) => void;
+  selectGenre: (genre: Genre) => void;
   selectedGenre: Genre | null;
 }
 
 const GenreList = ({
-  handleClick,
+  selectGenre,
   selectedGenre,
 }: //remember to destructure w/ {braces}
 Props) => {
-  const { data, isLoading } = useGenres();
+  const { data, isLoading } = useGenres(selectedGenre);
 
   if (data.length === 0) return null; // If optionally mapping is this needed
 
   // ToDo - isLoading status not working for genres but working for games
   // if (!isLoading) return <Spinner />; // ToDo spinner only displaying here, not when loading
   // if (isLoading) return <Spinner />;
-  console.log(selectedGenre, "sg");
   return (
     <List>
       {isLoading && skeletons.map((s) => <GenreListSkeleton key={s} />)}
@@ -36,7 +35,7 @@ Props) => {
                 borderRadius={8}
               />
               <Button
-                onClick={() => handleClick(genre)}
+                onClick={() => selectGenre(genre)}
                 variant="link"
                 fontSize="lg"
                 className={
