@@ -1,4 +1,3 @@
-import { Platform } from "../types/apiTypes";
 import {
   FaWindows,
   FaAndroid,
@@ -12,6 +11,7 @@ import { SiNintendo } from "react-icons/si";
 import { BsGlobe } from "react-icons/bs";
 import { HStack, Icon } from "@chakra-ui/react";
 import { IconType } from "react-icons";
+import { Platform } from "../hooks/usePlatforms";
 // ToDo Review this logic
 // build map object https://www.w3schools.com/js/js_maps.asp
 // (https://blog.logrocket.com/refactoring-cascading-conditionals-favor-readability/)

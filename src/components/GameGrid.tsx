@@ -3,7 +3,8 @@ import Dropdown from "./Dropdown";
 import GameCardContainer from "./GameCardContainer";
 import GameCardSkeleton from "./GameCardSkeleton";
 import GameCard from "./GameCard";
-import { Game, Platform } from "../types/apiTypes";
+import { Game } from "../types/apiTypes";
+import { Platform } from "../hooks/usePlatforms";
 
 interface IProps {
   games: Game[];
