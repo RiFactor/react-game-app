@@ -5,7 +5,7 @@ import useGames from "../hooks/useGames";
 import usePlatforms from "../hooks/usePlatforms";
 import { useNavigate } from "react-router-dom";
 import { Genre } from "../hooks/useGenres";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import GameGrid from "./GameGrid";
 
 //Layout
@@ -20,8 +20,13 @@ import GameGrid from "./GameGrid";
 // user-friendly error messages
 /* dropdown for order by: */
 // * ToDo Pagination */
+// ToDo update undefined to null
 
-const MainLayout = () => {
+interface IProps {
+  children: ReactNode;
+}
+
+const MainLayout = ({ children }: IProps) => {
   const [searchGameName, setSearchGameName] = useState<string>("");
   const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
   const [selectedPlatform, setSelectedPlatform] = useState<
@@ -86,6 +91,7 @@ const MainLayout = () => {
         </GridItem>
       </Show>
       <GridItem className="p-2" area="main">
+        {children}
         <GameGrid
           games={data}
           isLoading={isLoading}

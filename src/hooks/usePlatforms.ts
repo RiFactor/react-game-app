@@ -8,6 +8,6 @@ export type Platform = {
 
 // NB: parent_platforms (not platforms)
 
-const usePlatforms = () => useData<Platform>("/platforms/lists/parents");
+const usePlatforms = () => useData<Platform>("/platforms/lists/parents"); // QQ why Platform and not Platform[]
 
 export default usePlatforms;
