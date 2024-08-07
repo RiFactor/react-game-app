@@ -51,7 +51,7 @@ const MainLayout = () => {
   //   // ToDo is this neater to reset everything or will the order matter
   // };
 
-  const { platforms } = usePlatforms();
+  const { data: platforms } = usePlatforms();
 
   const navigate = useNavigate();
 

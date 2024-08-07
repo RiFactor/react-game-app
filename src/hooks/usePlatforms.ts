@@ -1,31 +1,13 @@
-import { useEffect, useState } from "react";
-import platformService from "../services/platform-service";
-import { AxiosError, CanceledError } from "axios";
-import { Platform } from "../types/apiTypes";
+import useData from "./useData";
 
-const usePlatforms = () => {
-  const [platforms, setPlatforms] = useState<Platform[]>([]); // NB: parent_platforms (not platforms)
-  // error
-
-  useEffect(() => {
-    const { request, cancel } = platformService.getAllPlatforms();
-    request
-      .then((res: any) => {
-        setPlatforms(res.data.results);
-        // setIsLoading(false);
-      })
-      .catch((err: AxiosError) => {
-        if (err instanceof CanceledError) return;
-        console.error("Error fetching platforms", err);
-        // setIsLoading(false);
-      });
-
-    return () => {
-      cancel();
-    };
-  }, []);
-
-  return { platforms };
+export type Platform = {
+  id: number;
+  name: string;
+  slug: string;
 };
+
+// NB: parent_platforms (not platforms)
+
+const usePlatforms = () => useData("/platforms/lists/parents");
 
 export default usePlatforms;

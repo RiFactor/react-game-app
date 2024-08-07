@@ -1,8 +1,4 @@
-export type Platform = {
-  id: number;
-  name: string;
-  slug: string;
-};
+import { Platform } from "../hooks/usePlatforms";
 
 export type PlatformObject = {
   platform: Platform;
